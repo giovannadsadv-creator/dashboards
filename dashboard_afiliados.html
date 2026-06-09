@@ -2,48 +2,40 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard — Afiliados & Experts</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #1a1a18; font-size: 14px; }
-
 .topbar { background: #fff; border-bottom: 0.5px solid #e0e0d8; padding: 12px 28px; display: flex; align-items: center; gap: 12px; }
 .topbar h1 { font-size: 17px; font-weight: 500; }
 .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
 .topbar-date { font-size: 12px; color: #aaa; }
-.btn-drive { display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px; border-radius: 8px; border: 0.5px solid #e0e0d8; background: #fff; color: #1a1a18; font-size: 12px; font-weight: 500; text-decoration: none; transition: background .12s, border-color .12s; white-space: nowrap; }
+.btn-drive { display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px; border-radius: 8px; border: 0.5px solid #e0e0d8; background: #fff; color: #1a1a18; font-size: 12px; font-weight: 500; text-decoration: none; transition: background .12s; white-space: nowrap; }
 .btn-drive:hover { background: #f5f5f3; border-color: #bbb; }
-.drive-icon { width: 16px; height: 16px; flex-shrink: 0; }
-
 .tab-bar { background: #fff; border-bottom: 0.5px solid #e0e0d8; padding: 0 28px; display: flex; gap: 0; overflow-x: auto; }
 .tab-btn { padding: 12px 20px; font-size: 13px; font-weight: 500; color: #888; border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; transition: all .15s; font-family: inherit; display: flex; align-items: center; gap: 7px; white-space: nowrap; }
 .tab-btn:hover { color: #333; }
 .tab-count { border-radius: 20px; font-size: 11px; padding: 1px 7px; }
-.tab-btn.t-vigentes.active   { color: #15803d; border-bottom-color: #15803d; }
+.tab-btn.t-vigentes.active { color: #15803d; border-bottom-color: #15803d; }
 .tab-btn.t-vigentes .tab-count { background: #dcfce7; color: #15803d; }
-.tab-btn.t-processo.active   { color: #b06000; border-bottom-color: #b06000; }
+.tab-btn.t-processo.active { color: #b06000; border-bottom-color: #b06000; }
 .tab-btn.t-processo .tab-count { background: #fffbeb; color: #92400e; }
 .tab-btn.t-encerrados.active { color: #b91c1c; border-bottom-color: #b91c1c; }
 .tab-btn.t-encerrados .tab-count { background: #fee2e2; color: #b91c1c; }
 .tab-btn.t-nlocalizados.active { color: #6b21a8; border-bottom-color: #6b21a8; }
 .tab-btn.t-nlocalizados .tab-count { background: #f3e8ff; color: #6b21a8; }
-
 .main { max-width: 1380px; margin: 0 auto; padding: 24px 28px; }
 .page { display: none; }
 .page.active { display: block; }
-
 .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
 .kpi { background: #fff; border: 0.5px solid #e0e0d8; border-radius: 10px; padding: 16px 18px; }
 .kpi-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
 .kpi-value { font-size: 30px; font-weight: 500; }
 .kpi-sub { font-size: 11px; color: #aaa; margin-top: 4px; }
 .kv-green { color: #1a7a45; } .kv-yellow { color: #b06000; } .kv-blue { color: #185fa5; } .kv-red { color: #b91c1c; } .kv-purple { color: #6b21a8; }
-
 .section-title { font-size: 11px; font-weight: 500; color: #888; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; margin-top: 20px; }
-
 .filters { display: flex; gap: 8px; margin: 14px 0 10px; flex-wrap: wrap; align-items: center; }
 .filter-pill { padding: 5px 14px; border-radius: 20px; border: 0.5px solid #ccc; background: #fff; color: #555; font-size: 12px; cursor: pointer; font-family: inherit; transition: all .15s; }
 .filter-pill:hover { border-color: #999; }
@@ -53,7 +45,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .search-input { padding: 5px 12px 5px 30px; border-radius: 20px; border: 0.5px solid #ccc; background: #fff; color: #1a1a18; font-size: 12px; width: 220px; outline: none; font-family: inherit; }
 .search-input:focus { border-color: #aac4f0; }
 .count-label { font-size: 12px; color: #aaa; white-space: nowrap; margin-left: auto; }
-
 .table-wrap { border: 0.5px solid #e0e0d8; border-radius: 10px; overflow: hidden; background: #fff; }
 table { width: 100%; border-collapse: collapse; table-layout: fixed; }
 thead { background: #fafaf8; }
@@ -62,29 +53,27 @@ th:hover { color: #333; }
 th.no-sort { cursor: default; } th.no-sort:hover { color: #888; }
 td { padding: 9px 12px; border-top: 0.5px solid #f0f0ec; color: #1a1a18; vertical-align: middle; }
 tr:hover td { background: #fafaf8; }
-
-.col-nome   { width: 18%; } .col-rede   { width: 11%; } .col-tipo   { width: 6%; }
-.col-head   { width: 7%;  } .col-pj     { width: 13%; } .col-sign   { width: 10%; }
-.col-obs    { width: 11%; } .col-drive  { width: 4%; text-align: center; }
-.col-acao   { width: 12%; text-align: right; }
-
+.col-nome { width: 18%; } .col-rede { width: 11%; } .col-tipo { width: 6%; }
+.col-head { width: 7%; } .col-pj { width: 13%; } .col-sign { width: 10%; }
+.col-obs { width: 11%; } .col-drive { width: 4%; text-align: center; }
+.col-acao { width: 12%; text-align: right; }
 .badge { display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 11px; font-weight: 500; }
-.badge-interno  { background: #e8f0fb; color: #185fa5; }
-.badge-externo  { background: #f0fdf4; color: #15803d; }
-.badge-sem      { background: #f3f3f0; color: #888; }
-.badge-vigente  { background: #dcfce7; color: #15803d; }
-.badge-encerrado{ background: #fee2e2; color: #b91c1c; }
-.badge-processo { background: #fffbeb; color: #92400e; }
-.badge-nlocal   { background: #f3e8ff; color: #6b21a8; }
-
+.badge-interno { background: #e8f0fb; color: #185fa5; }
+.badge-externo { background: #f0fdf4; color: #15803d; }
+.badge-sem { background: #f3f3f0; color: #888; }
+.badge-nda-sim { background: #e8f0fb; color: #185fa5; }
+.badge-nda-nao { background: #f3f3f0; color: #888; }
 .sort-icon { font-size: 10px; margin-left: 2px; }
 .empty-row td { text-align: center; color: #bbb; padding: 32px; font-style: italic; }
 .tag-line { font-size: 10px; display: block; margin-top: 2px; color: #888; }
-
 .drive-link { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 6px; border: 0.5px solid #e0e0d8; background: #fff; text-decoration: none; transition: background .12s; }
 .drive-link:hover { background: #f5f5f3; border-color: #bbb; }
-
-/* modal */
+.btn-enc { display: inline-flex; align-items: center; gap: 3px; padding: 4px 8px; border-radius: 6px; border: 0.5px solid #fca5a5; background: #fff; color: #b91c1c; font-size: 11px; cursor: pointer; font-family: inherit; transition: background .12s; white-space: nowrap; }
+.btn-enc:hover { background: #fef2f2; }
+.btn-reat { display: inline-flex; align-items: center; gap: 3px; padding: 4px 8px; border-radius: 6px; border: 0.5px solid #86efac; background: #fff; color: #15803d; font-size: 11px; cursor: pointer; font-family: inherit; transition: background .12s; white-space: nowrap; }
+.btn-reat:hover { background: #f0fdf4; }
+.btn-sign { display: inline-flex; align-items: center; gap: 3px; padding: 4px 8px; border-radius: 6px; border: 0.5px solid #93c5fd; background: #fff; color: #185fa5; font-size: 11px; cursor: pointer; font-family: inherit; transition: background .12s; white-space: nowrap; }
+.btn-sign:hover { background: #e8f0fb; }
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 1000; align-items: center; justify-content: center; }
 .modal-overlay.open { display: flex; }
 .modal { background: #fff; border-radius: 14px; padding: 28px 28px 24px; width: 440px; max-width: 94vw; box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
@@ -92,38 +81,408 @@ tr:hover td { background: #fafaf8; }
 .modal-sub { font-size: 13px; color: #666; margin-bottom: 20px; line-height: 1.5; }
 .modal-sub strong { color: #1a1a18; }
 .modal label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 0.04em; display: block; margin-bottom: 6px; }
-.modal select, .modal textarea, .modal input[type=date], .modal input[type=text] { width: 100%; padding: 8px 10px; border-radius: 8px; border: 0.5px solid #ccc; font-size: 13px; font-family: inherit; color: #1a1a18; outline: none; background: #fff; }
-.modal select:focus, .modal textarea:focus, .modal input:focus { border-color: #aac4f0; }
+.modal input[type=date], .modal textarea { width: 100%; padding: 8px 10px; border-radius: 8px; border: 0.5px solid #ccc; font-size: 13px; font-family: inherit; color: #1a1a18; outline: none; }
+.modal input:focus, .modal textarea:focus { border-color: #aac4f0; }
 .modal textarea { resize: vertical; min-height: 60px; }
 .modal-field { margin-bottom: 16px; }
 .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
 .btn-cancel { padding: 7px 18px; border-radius: 8px; border: 0.5px solid #ccc; background: #fff; color: #555; font-size: 13px; cursor: pointer; font-family: inherit; }
 .btn-cancel:hover { background: #f5f5f3; }
-.btn-ok-enc  { padding: 7px 18px; border-radius: 8px; border: none; background: #b91c1c; color: #fff; font-size: 13px; cursor: pointer; font-family: inherit; font-weight: 500; }
-.btn-ok-enc:hover  { background: #991b1b; }
+.btn-ok-enc { padding: 7px 18px; border-radius: 8px; border: none; background: #b91c1c; color: #fff; font-size: 13px; cursor: pointer; font-family: inherit; font-weight: 500; }
+.btn-ok-enc:hover { background: #991b1b; }
 .btn-ok-reat { padding: 7px 18px; border-radius: 8px; border: none; background: #15803d; color: #fff; font-size: 13px; cursor: pointer; font-family: inherit; font-weight: 500; }
 .btn-ok-reat:hover { background: #166534; }
 .btn-ok-sign { padding: 7px 18px; border-radius: 8px; border: none; background: #185fa5; color: #fff; font-size: 13px; cursor: pointer; font-family: inherit; font-weight: 500; }
 .btn-ok-sign:hover { background: #145088; }
-
-.btn-enc  { display: inline-flex; align-items: center; gap: 3px; padding: 4px 8px; border-radius: 6px; border: 0.5px solid #fca5a5; background: #fff; color: #b91c1c; font-size: 11px; cursor: pointer; font-family: inherit; transition: background .12s; white-space: nowrap; }
-.btn-enc:hover  { background: #fef2f2; }
-.btn-reat { display: inline-flex; align-items: center; gap: 3px; padding: 4px 8px; border-radius: 6px; border: 0.5px solid #86efac; background: #fff; color: #15803d; font-size: 11px; cursor: pointer; font-family: inherit; transition: background .12s; white-space: nowrap; }
-.btn-reat:hover { background: #f0fdf4; }
-.btn-sign { display: inline-flex; align-items: center; gap: 3px; padding: 4px 8px; border-radius: 6px; border: 0.5px solid #93c5fd; background: #fff; color: #185fa5; font-size: 11px; cursor: pointer; font-family: inherit; transition: background .12s; white-space: nowrap; }
-.btn-sign:hover { background: #e8f0fb; }
-td.col-acao { vertical-align: middle; }
-
 .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1a1a18; color: #fff; padding: 10px 20px; border-radius: 8px; font-size: 13px; opacity: 0; transition: opacity .2s, transform .2s; z-index: 2000; pointer-events: none; }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-@media (max-width: 960px) {
-  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-  .col-pj, .col-obs { display: none; }
-}
-@media print { .tab-bar, .filters, .modal-overlay, .btn-enc, .btn-reat, .btn-sign, .toast { display: none !important; } body { background: #fff; } }
+.nloc-row td { background: #faf5ff !important; }
+@media (max-width: 960px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } .col-pj, .col-obs { display: none; } }
 </style>
 </head>
 <body>
+<div class="topbar">
+  <i class="ti ti-users" style="font-size:20px;color:#185fa5"></i>
+  <h1>Afiliados &amp; Experts</h1>
+  <div class="topbar-right">
+    <span class="topbar-date" id="topbarDate"></span>
+    <a class="btn-drive" href="https://drive.google.com/drive/folders/1bbVT8lS8xMNbWBaRIi4iKA9Z04y12P59?usp=drive_link" target="_blank" rel="noopener">
+      <svg width="15" height="15" viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg"><path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47"/><path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/><path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/><path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/><path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 27h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/></svg>
+      Abrir Drive
+    </a>
+  </div>
+</div>
+<div class="tab-bar">
+  <button class="tab-btn t-vigentes active" id="tab-vigentes" onclick="showPage('vigentes')"><i class="ti ti-circle-check"></i> Vigentes <span class="tab-count" id="tc-vigentes">0</span></button>
+  <button class="tab-btn t-processo" id="tab-processo" onclick="showPage('processo')"><i class="ti ti-clock"></i> Em processo <span class="tab-count" id="tc-processo">0</span></button>
+  <button class="tab-btn t-encerrados" id="tab-encerrados" onclick="showPage('encerrados')"><i class="ti ti-circle-x"></i> Encerrados <span class="tab-count" id="tc-encerrados">0</span></button>
+  <button class="tab-btn t-nlocalizados" id="tab-nlocalizados" onclick="showPage('nlocalizados')"><i class="ti ti-alert-circle"></i> Não localizados <span class="tab-count" id="tc-nlocalizados">0</span></button>
+</div>
+<div class="main">
+  <div class="page active" id="page-vigentes">
+    <div class="kpi-grid" id="kpis-vigentes"></div>
+    <div class="section-title">afiliados com contrato vigente</div>
+    <div class="filters">
+      <button class="filter-pill active" onclick="setHead('vigentes','Todos',this)">Todos</button>
+      <button class="filter-pill" onclick="setHead('vigentes','Bruno',this)">Bruno</button>
+      <button class="filter-pill" onclick="setHead('vigentes','Castro',this)">Castro</button>
+      <button class="filter-pill" onclick="setHead('vigentes','Fabio',this)">Fabio</button>
+      <button class="filter-pill" onclick="setHead('vigentes','Fuzato',this)">Fuzato</button>
+      <button class="filter-pill" onclick="setHead('vigentes','Guilherme',this)">Guilherme</button>
+      <button class="filter-pill" onclick="setHead('vigentes','Lahan',this)">Lahan</button>
+      <button class="filter-pill" onclick="setHead('vigentes','Lucas',this)">Lucas</button>
+      <button class="filter-pill" onclick="setHead('vigentes','Nathan',this)">Nathan</button>
+      <button class="filter-pill" onclick="setHead('vigentes','Siquara',this)">Siquara</button>
+      <div class="search-wrap"><i class="ti ti-search"></i><input class="search-input" id="searchVig" type="text" placeholder="Buscar afiliado..." oninput="renderVig()" /></div>
+      <span class="count-label" id="countVig"></span>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr>
+        <th class="col-nome">Nome</th>
+        <th class="col-rede">Rede social</th>
+        <th class="col-tipo">Tipo</th>
+        <th class="col-head">Head</th>
+        <th class="col-pj">PJ / CNPJ</th>
+        <th class="col-sign">Assinatura</th>
+        <th class="col-obs no-sort">Observação</th>
+        <th class="col-drive no-sort">Drive</th>
+        <th class="col-acao no-sort">Ação</th>
+      </tr></thead>
+      <tbody id="tbody-vig"></tbody>
+    </table></div>
+  </div>
+  <div class="page" id="page-processo">
+    <div class="kpi-grid" id="kpis-processo"></div>
+    <div class="section-title">contratos em processo de assinatura</div>
+    <div class="filters">
+      <button class="filter-pill active" onclick="setHead('processo','Todos',this)">Todos</button>
+      <button class="filter-pill" onclick="setHead('processo','Bruno',this)">Bruno</button>
+      <button class="filter-pill" onclick="setHead('processo','Castro',this)">Castro</button>
+      <button class="filter-pill" onclick="setHead('processo','Fabio',this)">Fabio</button>
+      <button class="filter-pill" onclick="setHead('processo','Fuzato',this)">Fuzato</button>
+      <button class="filter-pill" onclick="setHead('processo','Guilherme',this)">Guilherme</button>
+      <button class="filter-pill" onclick="setHead('processo','Siquara',this)">Siquara</button>
+      <div class="search-wrap"><i class="ti ti-search"></i><input class="search-input" id="searchProc" type="text" placeholder="Buscar afiliado..." oninput="renderProc()" /></div>
+      <span class="count-label" id="countProc"></span>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr>
+        <th class="col-nome">Nome</th>
+        <th class="col-rede">Rede social</th>
+        <th class="col-tipo">Tipo</th>
+        <th class="col-head">Head</th>
+        <th class="col-pj">PJ / CNPJ</th>
+        <th class="col-sign">E-mail</th>
+        <th class="col-obs no-sort">Observação</th>
+        <th class="col-drive no-sort">Drive</th>
+        <th class="col-acao no-sort">Ação</th>
+      </tr></thead>
+      <tbody id="tbody-proc"></tbody>
+    </table></div>
+  </div>
+  <div class="page" id="page-encerrados">
+    <div class="kpi-grid" id="kpis-enc"></div>
+    <div class="section-title">contratos encerrados</div>
+    <div class="filters">
+      <div class="search-wrap"><i class="ti ti-search"></i><input class="search-input" id="searchEnc" type="text" placeholder="Buscar afiliado..." oninput="renderEnc()" /></div>
+      <span class="count-label" id="countEnc"></span>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr>
+        <th class="col-nome">Nome</th>
+        <th class="col-rede no-sort">Rede social</th>
+        <th class="col-tipo no-sort">Tipo</th>
+        <th class="col-head no-sort">Head</th>
+        <th class="col-pj no-sort">PJ / CNPJ</th>
+        <th class="col-sign no-sort">Encerramento</th>
+        <th class="col-obs no-sort">Motivo</th>
+        <th class="col-drive no-sort">Drive</th>
+        <th class="col-acao no-sort">Ação</th>
+      </tr></thead>
+      <tbody id="tbody-enc"></tbody>
+    </table></div>
+  </div>
+  <div class="page" id="page-nlocalizados">
+    <div class="kpi-grid" id="kpis-nloc"></div>
+    <div class="section-title">contratos não localizados — pendente validação</div>
+    <div class="filters">
+      <div class="search-wrap"><i class="ti ti-search"></i><input class="search-input" id="searchNloc" type="text" placeholder="Buscar afiliado..." oninput="renderNloc()" /></div>
+      <span class="count-label" id="countNloc"></span>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr>
+        <th class="col-nome no-sort">Nome</th>
+        <th class="col-rede no-sort">Rede social</th>
+        <th class="col-tipo no-sort">Tipo</th>
+        <th class="col-head no-sort">Head</th>
+        <th class="col-pj no-sort">PJ / CNPJ</th>
+        <th class="col-sign no-sort">E-mail</th>
+        <th class="col-obs no-sort" colspan="2">Situação</th>
+        <th class="col-drive no-sort">Drive</th>
+        <th class="col-acao no-sort">Ação</th>
+      </tr></thead>
+      <tbody id="tbody-nloc"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalEnc">
+  <div class="modal">
+    <h2><i class="ti ti-circle-x" style="color:#b91c1c;vertical-align:-2px;margin-right:6px"></i>Encerrar contrato</h2>
+    <p class="modal-sub">Afiliado: <strong id="menc-nome"></strong></p>
+    <div class="modal-field"><label>Data de encerramento</label><input type="date" id="menc-data" /></div>
+    <div class="modal-field"><label>Motivo (opcional)</label><textarea id="menc-obs" placeholder="Ex: rescisão amigável..."></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModals()">Cancelar</button>
+      <button class="btn-ok-enc" onclick="confirmarEnc()">Confirmar encerramento</button>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="modalReat">
+  <div class="modal">
+    <h2><i class="ti ti-circle-check" style="color:#15803d;vertical-align:-2px;margin-right:6px"></i>Reativar afiliado</h2>
+    <p class="modal-sub">Mover <strong id="mreat-nome"></strong> de volta para Vigentes?</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModals()">Cancelar</button>
+      <button class="btn-ok-reat" onclick="confirmarReat()">Sim, reativar</button>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="modalSign">
+  <div class="modal">
+    <h2><i class="ti ti-signature" style="color:#185fa5;vertical-align:-2px;margin-right:6px"></i>Marcar como assinado</h2>
+    <p class="modal-sub">Afiliado: <strong id="msign-nome"></strong></p>
+    <div class="modal-field"><label>Data de assinatura</label><input type="date" id="msign-data" /></div>
+    <div class="modal-field"><label>Observação (opcional)</label><textarea id="msign-obs"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModals()">Cancelar</button>
+      <button class="btn-ok-sign" onclick="confirmarSign()">Confirmar assinatura</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const TODAY = new Date('2026-06-08');
+const DRIVE = 'https://drive.google.com/drive/folders/1bbVT8lS8xMNbWBaRIi4iKA9Z04y12P59?usp=drive_link';
+document.getElementById('topbarDate').textContent = 'Atualizado em ' + TODAY.toLocaleDateString('pt-BR');
+
+const BASE = [
+  {id:1,nome:'Arthur Daniel Drillard Sadde de Oliveira',rede:'@phantom.roleta',tipo:'EXTERNO',head:'-',pj:'FUZABALTA LTDA.',cnpj:'47.772.877/0001-64',email:'arthur.drillard.00@gmail.com',sign:'25/11/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:2,nome:'Arthur Filipe Oliveira',rede:'@tipsterblack',tipo:'EXTERNO',head:'-',pj:'-',cnpj:'-',email:'contatoarthur77@gmail.com',sign:'25/11/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:3,nome:'TIPMINER GAMING LTDA. (Gustavo H. P. Reis)',rede:'www.tipminer.com/br',tipo:'-',head:'-',pj:'TIPMINER GAMING LTDA.',cnpj:'49.885.111/0001-11',email:'gustavo@tipminer.com',sign:'17/06/2025',obs:'Contrato PS de 13.04.2026 em processo de assinatura',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:4,nome:'Isabele Bichara do Nascimento Lorena',rede:'@isa.bichara @rainhadavelarosa',tipo:'EXTERNO',head:'-',pj:'FUZABALTA LTDA.',cnpj:'47.772.877/0001-64',email:'isa.bichara@gmail.com',sign:'24/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:5,nome:'Izael Junior Arruda de Lemos',rede:'@izaproplayer',tipo:'INTERNO',head:'-',pj:'IZAEL JUNIOR ARRUDA DE LEMOS LTDA.',cnpj:'61.272.557/0001-76',email:'izaellemos@gmail.com',sign:'24/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:6,nome:'Lucas Eliezer da Silva Correia',rede:'@lc_silvaoriginal',tipo:'EXTERNO',head:'-',pj:'IVIMEDIA AGENCIA DE MARKETING LTDA.',cnpj:'40.120.975/0001-78',email:'lucassilvacorreia@icloud.com',sign:'13/08/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:7,nome:'Lucas Freire Sales',rede:'@lkdocassinoficial',tipo:'INTERNO',head:'-',pj:'LUCAS FREIRE SALES TREINAMENTOS',cnpj:'50.714.870/0001-42',email:'lsales914@gmail.com',sign:'01/02/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:8,nome:'Lucas Gabriel Zerba Campanha',rede:'@lucas_campanha',tipo:'INTERNO',head:'-',pj:'LUCAS GABRIEL ZERBA CAMPANHA AGENCIA DE PUBLICIDADE LTDA.',cnpj:'58.523.357/0001-34',email:'abertura@contabilizei.com.br',sign:'27/05/2025',obs:'Vigência de 05 anos',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:9,nome:'Lucas Vinicius de Melo Regis',rede:'@oraculodados',tipo:'INTERNO',head:'-',pj:'33.653.575 LUCAS VINICIUS DE MELO REGIS',cnpj:'33.653.575/0001-62',email:'lucasvmregis@gmail.com',sign:'17/07/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:10,nome:'Lucas Zanoni Inácio',rede:'@olucaszanoni',tipo:'INTERNO',head:'-',pj:'51.611.728 LUCAS ZANONI INACIO',cnpj:'51.611.728/0001-90',email:'lucasmlkdklm@gmail.com',sign:'30/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:11,nome:'Ludmilla Ferraz de Góis',rede:'Embaixadora BETFUSION',tipo:'INTERNO',head:'-',pj:'-',cnpj:'-',email:'ludmila.ferraz@live.com',sign:'12/03/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:12,nome:'Pedro Knust Costa',rede:'@_kndados',tipo:'INTERNO',head:'-',pj:'54.065.340 PEDRO KNUST COSTA',cnpj:'54.065.340/0001-20',email:'knustpedro01@gmail.com',sign:'11/12/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:13,nome:'Rafael Oliveira Ferreira',rede:'@rafadabet.01',tipo:'INTERNO',head:'-',pj:'PROGRESS COMPANY',cnpj:'57.655.134/0001-68',email:'kiwifi.rape@gmail.com',sign:'01/02/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:14,nome:'Wemerson Pinto Pereira',rede:'@wemersonsheiik',tipo:'INTERNO',head:'-',pj:'WEMERSON PUBLICIDADE E SERVIÇOS LTDA.',cnpj:'49.885.779/0001-69',email:'-',sign:'30/05/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:15,nome:'Marcus Vinicius Damaceno Calabró',rede:'@mvaviator',tipo:'INTERNO',head:'Bruno',pj:'MARCUS VINICIUS DAMACENO CALABRÓ',cnpj:'49.589.976/0001-30',email:'mvcalabro@gmail.com',sign:'08/01/2026',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:16,nome:'Rayane Pereira Brandão de Oliveira',rede:'@raydabet01 @raydabetreservaa',tipo:'INTERNO',head:'Bruno',pj:'47.632.604 Rayane Pereira Brandão de Oliveira',cnpj:'47.632.604/0001-14',email:'rayannebrandao8@gmail.com',sign:'08/08/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:17,nome:'Alison Eduardo Domingos da Silva',rede:'@_alison.eduardo',tipo:'INTERNO',head:'Bruno',pj:'-',cnpj:'-',email:'alison.eduardo102030@gmail.com',sign:'02/01/2026',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:18,nome:'Alisson Rocha dos Santos',rede:'@masteraviator.ofc',tipo:'INTERNO',head:'Bruno',pj:'-',cnpj:'-',email:'alissom.jaine2018@gmail.com',sign:'17/02/2026',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:19,nome:'Edenir Bortotti Marques Júnior',rede:'@marquesjuniooor',tipo:'INTERNO',head:'Bruno',pj:'59.579.832 Edenir Bortotti Marques Júnior',cnpj:'59.579.832/0001-57',email:'junior@marquesetiquetas.com.br',sign:'02/12/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:20,nome:'Juan Raphael Bloch Montero',rede:'@domexcroupier',tipo:'INTERNO',head:'Bruno',pj:'BLOCH MARKETING DIGITAL LTDA.',cnpj:'47.061.405/0001-01',email:'juanmonteroitavema@gmail.com',sign:'12/11/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:21,nome:'Ana Luiza da Silva',rede:'@aninhasllots',tipo:'EXTERNO',head:'Castro',pj:'CASTRO MEDIA LTDA.',cnpj:'44.378.320/0001-55',email:'analuh1200@gmail.com',sign:'19/01/2026',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:22,nome:'Brando Neves Pereira',rede:'@mineirodados',tipo:'EXTERNO',head:'Castro',pj:'CASTRO MEDIA LTDA.',cnpj:'44.378.320/0001-55',email:'brandonevess@gmail.com',sign:'12/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:23,nome:'Guilherme Tiago dos Santos Oliveira',rede:'@guilhermetiagox',tipo:'EXTERNO',head:'Castro',pj:'CASTRO MEDIA LTDA.',cnpj:'44.378.320/0001-55',email:'gui.tiago.gt@gmail.com',sign:'12/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:24,nome:'Gustavo Martins Barros',rede:'@guggaslots',tipo:'EXTERNO',head:'Castro',pj:'CASTRO MEDIA LTDA.',cnpj:'44.378.320/0001-55',email:'gmbarros07@gmail.com',sign:'12/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:25,nome:'João Pedro Nolli da Silva',rede:'@ojoaopsilvaa_',tipo:'INTERNO',head:'Castro',pj:'STARTT MIDIA LTDA.',cnpj:'30.842.766/0001-84',email:'contatojoaonolli@gmail.com',sign:'14/07/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:26,nome:'Karen Kamilly Baptista da Silva',rede:'@metodoskaren @karen_aviator',tipo:'EXTERNO',head:'Castro',pj:'CASTRO MEDIA LTDA.',cnpj:'44.378.320/0001-55',email:'karenkamilly@icloud.com',sign:'12/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:27,nome:'Luiz Gabriel Nunes Santos',rede:'@luiz100x',tipo:'EXTERNO',head:'Castro',pj:'CASTRO MEDIA LTDA.',cnpj:'44.378.320/0001-55',email:'-',sign:'12/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:28,nome:'Matheus Brito',rede:'@eusoumatheusbrito @matheusbritoreserva',tipo:'EXTERNO',head:'Castro',pj:'CASTRO MEDIA LTDA.',cnpj:'44.378.320/0001-55',email:'mbnegociosdigitais1@gmail.com',sign:'12/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:29,nome:'Paulo Otávio Ferreira da Silva',rede:'@magocartas',tipo:'EXTERNO',head:'Castro',pj:'CASTRO MEDIA LTDA.',cnpj:'44.378.320/0001-55',email:'-',sign:'24/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:30,nome:'Thiago de Jesus Dos Santos',rede:'@thsantosllots',tipo:'EXTERNO',head:'Castro',pj:'CASTRO MEDIA LTDA.',cnpj:'44.378.320/0001-55',email:'-',sign:'12/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:31,nome:'Vitor Eduardo de Oliveira Rodrigues',rede:'@eduardosllots',tipo:'EXTERNO',head:'Castro',pj:'CASTRO MEDIA LTDA.',cnpj:'44.378.320/0001-55',email:'vitorkombat21@gmail.com',sign:'12/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:32,nome:'Fábio de Camargo Lopes',rede:'@fclopes01 @casaldabett',tipo:'EXTERNO',head:'Fabio',pj:'FCS SOLUTIOS LTDA.',cnpj:'58.368.367/0001-42',email:'fcamargo.lopes@gmail.com',sign:'30/05/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:33,nome:'Fellipe Vitorino / Maria Clara Santos',rede:'@casaldaslapadas',tipo:'EXTERNO',head:'Fabio',pj:'FVP PUBLICIDADE LTDA.',cnpj:'32.240.688/0001-34',email:'ocariocadabet@gmail.com',sign:'19/01/2026',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:34,nome:'Kevyn Vitorino / Larissa Silva',rede:'@casaldasorte',tipo:'EXTERNO',head:'Fabio',pj:'FCS SOLUTIONS LTDA.',cnpj:'58.368.367/0001-42',email:'kevynvitorino22@gmail.com',sign:'24/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:35,nome:'Pedro de Abreu',rede:'@Abreu100xx @Abreu100x',tipo:'EXTERNO',head:'Fabio',pj:'PEDRO DE ABREU',cnpj:'60.171.112/0001-37',email:'pedroabreu601@gmail.com',sign:'19/01/2026',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:36,nome:'Adenilton da Silva dos Santos',rede:'@eudennyaviator',tipo:'EXTERNO',head:'Fuzato',pj:'-',cnpj:'-',email:'denny.pagseguro@gmail.com',sign:'-',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:37,nome:'Aline de Souza Marques',rede:'@alineaviatorrr',tipo:'EXTERNO',head:'Fuzato',pj:'-',cnpj:'-',email:'aline_.marques@hotmail.com',sign:'-',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:38,nome:'Felipe Rissi de Souza',rede:'@efapostas',tipo:'EXTERNO',head:'Fuzato',pj:'-',cnpj:'-',email:'feliperissisouza22@gmail.com',sign:'24/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:39,nome:'Guilherme Felipe Bhering Araújo',rede:'@guibacbo',tipo:'EXTERNO',head:'Fuzato',pj:'-',cnpj:'-',email:'guilhermebhering10@hotmail.com',sign:'24/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:40,nome:'Juan Cunha Noé Arneiro',rede:'@rjotabet',tipo:'EXTERNO',head:'Fuzato',pj:'FUZABALTA LTDA.',cnpj:'47.772.877/0001-64',email:'noejuan12@yahoo.com.br',sign:'30/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:41,nome:'Laura Rocha dos Santos',rede:'@slotlaura @laaura_rocha_',tipo:'EXTERNO',head:'Fuzato',pj:'-',cnpj:'-',email:'laurety1998@gmail.com',sign:'30/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:42,nome:'Lucas Cabral Costa Fuzato',rede:'@fuzattoroleta',tipo:'INTERNO',head:'Fuzato',pj:'FUZABALTA LTDA.',cnpj:'47.772.877/0001-64',email:'lucas.fuzato@hotmail.com',sign:'17/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:43,nome:'Marcos André Araújo Moura Magalhães',rede:'@markindabett',tipo:'EXTERNO',head:'Fuzato',pj:'FUZABALTA LTDA.',cnpj:'47.772.877/0001-64',email:'andremagalhaes433@gmail.com',sign:'24/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:44,nome:'Rafael Silva Gomes dos Santos',rede:'@orafamagnata',tipo:'EXTERNO',head:'Fuzato',pj:'FUZABALTA LTDA.',cnpj:'47.772.877/0001-64',email:'rafahelsilva260400@gmail.com',sign:'30/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:45,nome:'Sanderson De Araújo Souza',rede:'@sandman.aviator',tipo:'EXTERNO',head:'Fuzato',pj:'FUZABALTA LTDA.',cnpj:'47.772.877/0001-64',email:'sanderson.a.s.22@icloud.com',sign:'24/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:46,nome:'Soraya Bichara do Nascimento',rede:'@vovodabett',tipo:'EXTERNO',head:'Fuzato',pj:'FUZABALTA LTDA.',cnpj:'47.772.877/0001-65',email:'-',sign:'30/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:47,nome:'Vanessa Dias Martins',rede:'@vanessinhadabet',tipo:'EXTERNO',head:'Fuzato',pj:'FUZABALTA LTDA.',cnpj:'47.772.877/0001-64',email:'vanedias84@icloud.com',sign:'24/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:48,nome:'Willian Rezende',rede:'@rezendewiu',tipo:'EXTERNO',head:'Fuzato',pj:'FUZABALTA LTDA.',cnpj:'47.772.877/0001-65',email:'-',sign:'25/11/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:49,nome:'GSF MARKETING LTDA. (Guilherme Freitas)',rede:'Divulgação 3 marcas',tipo:'Divulgação',head:'Guilherme Freitas',pj:'GSF MARKETING LTDA.',cnpj:'52.959.997/0001-05',email:'-',sign:'16/06/2025',obs:'sortenabet, betfusion, betou',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:50,nome:'Anna Laura Sividanis Dal Santo Rodrigues',rede:'@annadabet_',tipo:'INTERNO',head:'Guilherme',pj:'AL SOCIAL MINDS LTDA.',cnpj:'41.752.063/0001-81',email:'annalaurasividanisoliveira@gmail.com',sign:'-',obs:'1º Aditivo assinado e arquivado',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:51,nome:'Guilherme Loiola Melo',rede:'@cariocaroleta',tipo:'INTERNO',head:'Guilherme',pj:'-',cnpj:'-',email:'milliondigital.2024@gmail.com',sign:'10/07/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:52,nome:'Gustavo Henrique Barbosa (Casal do slot)',rede:'@casaldoslot01',tipo:'INTERNO',head:'Guilherme',pj:'AL SOCIAL MINDS LTDA.',cnpj:'41.752.063/0001-81',email:'gustavohbarbosa2011@hotmail.com',sign:'30/05/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:53,nome:'Maria Clara Rocha Albuquerque',rede:'@mariaclarafft',tipo:'INTERNO',head:'Guilherme',pj:'MCRA PROMOCAO DE VENDAS LTDA.',cnpj:'55.540.335/0001-94',email:'2005mcra@gmail.com',sign:'01/02/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:54,nome:'Matheus Francisco Martins Ribeiro',rede:'@_haridados',tipo:'INTERNO',head:'Guilherme',pj:'HARIDADE EXPOSIÇÕES LTDA.',cnpj:'52.610.301/0001-30',email:'matheusribeiroo_@hotmail.com',sign:'01/02/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:55,nome:'Nathan Lucio Moia Bulhoes',rede:'@sniper.cartas @nathandabet',tipo:'INTERNO',head:'Guilherme',pj:'LOYAL SOLUCOES DIGITAIS LTDA.',cnpj:'52.014.126/0001-19',email:'-',sign:'05/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:56,nome:'Nayline Assunção Vieira',rede:'@irmasdabet',tipo:'INTERNO',head:'Guilherme',pj:'JAGUAR COMPANY SERVIÇOS LTDA.',cnpj:'57.610.897/0001-92',email:'contato.naylinevieira@gmail.com',sign:'29/04/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:57,nome:'Leonardo Barros Lahan',rede:'@lahan_leonardo',tipo:'INTERNO',head:'Lahan',pj:'LBL DIGITAL',cnpj:'43.830.436/0001-10',email:'leonardolahan@gmail.com',sign:'01/02/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:58,nome:'Marcos Fernando De Oliveira Filho',rede:'@marquinho77.mk',tipo:'EXTERNO',head:'Lucas',pj:'33.653.575 LUCAS VINICIUS DE MELO REGIS',cnpj:'33.653.575/0001-62',email:'3marquinhobatera@gmail.com',sign:'01/08/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:59,nome:'Emerson Furtado Nascimento',rede:'@emerson_bacbo',tipo:'EXTERNO',head:'Lucas',pj:'-',cnpj:'-',email:'emersonfurtadopj@gmail.com',sign:'-',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:60,nome:'Lucas Leonardo Moia Bulhoes',rede:'@bacboss_',tipo:'EXTERNO',head:'Nathan',pj:'LOYAL SOLUCOES DIGITAIS LTDA.',cnpj:'52.014.126/0001-19',email:'-',sign:'30/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:61,nome:'Pedro Henrique Silveira',rede:'@professor.slots',tipo:'EXTERNO',head:'Nathan',pj:'LOYAL SOLUCOES DIGITAIS LTDA.',cnpj:'52.014.126/0001-19',email:'-',sign:'01/08/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:62,nome:'Vinícius Rodrigues Miranda',rede:'Menções perfil da Sorte',tipo:'INTERNO',head:'Siquara',pj:'-',cnpj:'-',email:'rodriguesvinicius2526@gmail.com',sign:'28/01/2026',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:63,nome:'Ana Luiza dos Santos',rede:'@nalu_aviator',tipo:'INTERNO',head:'Siquara',pj:'ANA LUIZA ATENDIMENTOS ESTRATÉGICOS LTDA.',cnpj:'58.919.849/0001-43',email:'aluizaval@gmail.com',sign:'21/08/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:64,nome:'Caique Martins Bucci',rede:'@caiqueaviatorr',tipo:'INTERNO',head:'Siquara',pj:'-',cnpj:'-',email:'caiquebucci@hotmail.com',sign:'17/10/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:65,nome:'Claudio Roberto Torres Filho',rede:'@oclaudiotorres',tipo:'INTERNO',head:'Siquara',pj:'-',cnpj:'-',email:'designcomtorres@gmail.com',sign:'23/02/2026',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:66,nome:'Diogo Freire Sales',rede:'-',tipo:'INTERNO',head:'Siquara',pj:'-',cnpj:'-',email:'diogosales2002@outlook.com',sign:'23/02/2026',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:67,nome:'Diogo Silva Costa',rede:'@diogo.cartas',tipo:'INTERNO',head:'Siquara',pj:'-',cnpj:'-',email:'diogo.silva@sortenabet.bet.br',sign:'03/02/2026',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:68,nome:'Israel Gomes da Silva',rede:'-',tipo:'INTERNO',head:'Siquara',pj:'-',cnpj:'-',email:'israel.drika@gmail.com',sign:'11/12/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:69,nome:'Lorena Tavares Ribeiro de Sena',rede:'-',tipo:'INTERNO',head:'Siquara',pj:'-',cnpj:'-',email:'lorena.sena@sortenabet.bet.br',sign:'29/01/2026',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:70,nome:'Lucas Calciolari Silva (IVIMEDIA)',rede:'@irmaosdabet_',tipo:'INTERNO',head:'-',pj:'IVIMEDIA AGENCIA DE MARKETING LTDA.',cnpj:'40.120.975/0001-78',email:'lucas.calciolarisilva@gmail.com',sign:'24/06/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:71,nome:'Lukas Vieira Rodrigues',rede:'@luketa__',tipo:'EXTERNO',head:'-',pj:'LKT DIGITAL PROMOCAO E VENDAS LTDA.',cnpj:'55.472.676/0001-70',email:'vieiralukas406@gmail.com',sign:'01/02/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  {id:72,nome:'Nicolas de Araújo Guimarães',rede:'@guima.mafia @n_.guimaraes',tipo:'EXTERNO',head:'-',pj:'IVIMEDIA AGENCIA DE MARKETING LTDA.',cnpj:'40.120.975/0001-78',email:'guimamafia@gmail.com',sign:'13/08/2025',obs:'',status:'vigente',dataEnc:'',obsEnc:''},
+  // EM PROCESSO
+  {id:73,nome:'Enzo Martinelli dos Santos',rede:'@enzo_martinelli',tipo:'INTERNO',head:'-',pj:'ENZO MARTINELLI DOS SANTOS',cnpj:'48.624.499/0001-34',email:'-',sign:'-',obs:'Contrato em processo de assinatura',status:'processo',dataEnc:'',obsEnc:''},
+  {id:74,nome:'Murilo Sibert',rede:'@kaiomuller__ @Dosguri041',tipo:'INTERNO',head:'-',pj:'-',cnpj:'-',email:'-',sign:'-',obs:'Contrato em processo de assinatura',status:'processo',dataEnc:'',obsEnc:''},
+  {id:75,nome:'Patrick Allan Lacerda Mareth',rede:'@mareth.tipminer @m4rethblaze',tipo:'EXTERNO',head:'-',pj:'63.853.463 PATRICK ALLAN LACERDA MARETH',cnpj:'63.853.463/0001-16',email:'patrickmaretth@hotmail.com',sign:'-',obs:'Contrato em processo — TIPMINER GAMING LTDA.',status:'processo',dataEnc:'',obsEnc:''},
+  {id:76,nome:'Josevan dos Santos Araújo Filho',rede:'@comandantedoslotna',tipo:'INTERNO',head:'Bruno',pj:'66.662.270 SAMARA ISABELLY DE SOUZA SOBRINHO',cnpj:'66.662.270/0001-76',email:'josevanjsaf@gmail.com',sign:'-',obs:'Contrato em processo de assinatura',status:'processo',dataEnc:'',obsEnc:''},
+  {id:77,nome:'Allyce Jucá Dantas de Santa Rosa Pita',rede:'@allyce.slots @allyce.slotsreserva',tipo:'INTERNO',head:'Bruno',pj:'AJP MARKETING LTDA.',cnpj:'63.411.906/0001-19',email:'allycestarosa@hotmail.com',sign:'-',obs:'Contrato em processo de assinatura',status:'processo',dataEnc:'',obsEnc:''},
+  {id:78,nome:'Davi Oliveira Dias',rede:'@davibusiness1',tipo:'INTERNO',head:'Bruno',pj:'-',cnpj:'-',email:'diasdavi701@gmail.com',sign:'-',obs:'Contrato em processo de assinatura',status:'processo',dataEnc:'',obsEnc:''},
+  {id:79,nome:'Gerlanderson dos Santos Trindade',rede:'@geleaviator',tipo:'INTERNO',head:'Bruno',pj:'GST PRODUÇÕES E EVENTOS',cnpj:'27.734.067/0001-06',email:'geletrindade@gmail.com',sign:'-',obs:'Rescisão em curso de assinatura',status:'processo',dataEnc:'',obsEnc:''},
+  {id:80,nome:'Inaldo Pita Gusmão Neto',rede:'@netoaviatorlab',tipo:'INTERNO',head:'Bruno',pj:'RV NETWORK LTDA.',cnpj:'40.715.917/0001-97',email:'inaldo_1994@hotmail.com',sign:'-',obs:'Contrato em processo de assinatura',status:'processo',dataEnc:'',obsEnc:''},
+  {id:81,nome:'Letícia Rodrigues Furtado',rede:'@letsnasalturas',tipo:'INTERNO',head:'Bruno',pj:'D M DE ALMEIDA LTDA.',cnpj:'45.600.324/0001-07',email:'leticiafurtado13082004@gmail.com',sign:'-',obs:'Contrato em processo de assinatura',status:'processo',dataEnc:'',obsEnc:''},
+  {id:82,nome:'João Pedro Soares de Oliveira',rede:'@jaoslotss',tipo:'EXTERNO',head:'Fuzato',pj:'FUZABALTA LTDA.',cnpj:'47.772.877/0001-64',email:'joaopsovrrrr@gmail.com',sign:'-',obs:'Contrato em processo de assinatura',status:'processo',dataEnc:'',obsEnc:''},
+  {id:83,nome:'Kaique Fernandes de Araújo',rede:'@kaiquee.araujo @kaique.bacbo',tipo:'EXTERNO',head:'Fuzato',pj:'FUZABALTA LTDA.',cnpj:'47.772.877/0001-64',email:'kaique.bacbo@gmail.com',sign:'-',obs:'Contrato em processo de assinatura',status:'processo',dataEnc:'',obsEnc:''},
+  {id:84,nome:'ADMASTERS SOLUCOES DE MARKETING DIGITAL',rede:'Marketing Digital',tipo:'INTERNO',head:'Siquara',pj:'ADMASTERS SOLUCOES DE MARKETING DIGITAL LTDA.',cnpj:'44.027.267/0001-48',email:'renan@admasters.media.com',sign:'-',obs:'Contrato em processo de assinatura',status:'processo',dataEnc:'',obsEnc:''},
+  {id:85,nome:'Silvano Cerqueira Lima Júnior',rede:'Menções perfil da Sorte',tipo:'INTERNO',head:'Siquara',pj:'-',cnpj:'-',email:'junhaolimaa@gmail.com',sign:'-',obs:'Contrato em processo de assinatura',status:'processo',dataEnc:'',obsEnc:''},
+  {id:86,nome:'Yasmin Vitoria Souza Pereira',rede:'-',tipo:'EXTERNO',head:'Fabio',pj:'65.183.092 YASMIN VITORIA SOUZA PEREIRA',cnpj:'65.183.092/0001-38',email:'ys09896@gmail.com',sign:'-',obs:'Contrato em processo de assinatura',status:'processo',dataEnc:'',obsEnc:''},
+  {id:87,nome:'Tais Teixeira Borges',rede:'@tais_aviator',tipo:'EXTERNO',head:'Lucas',pj:'IVIMEDIA AGENCIA DE MARKETING LTDA.',cnpj:'40.120.975/0001-78',email:'-',sign:'-',obs:'Contrato em processo de assinatura',status:'processo',dataEnc:'',obsEnc:''},
+  // ENCERRADOS
+  {id:88,nome:'Renato Divino Furtado (MIRIELUY CARDOSO)',rede:'@Renatodocorte100x @Renato100x',tipo:'INTERNO',head:'-',pj:'MIRIELUY CARDOSO PUBLICIDADES LTDA.',cnpj:'55.726.943/0001-98',email:'renatofurtado36@gmail.com',sign:'03/06/2025',obs:'Encerrado (rescindido)',status:'encerrado',dataEnc:'',obsEnc:'Rescindido'},
+  {id:89,nome:'Amanda de Castro Santos',rede:'@amandacastrooff',tipo:'INTERNO',head:'Bruno',pj:'-',cnpj:'-',email:'amandacastroofficial@gmail.com',sign:'-',obs:'Rescisão assinada e arquivada no drive',status:'encerrado',dataEnc:'',obsEnc:'Rescisão assinada'},
+  {id:90,nome:'Diego Medeiros de Almeida (D M DE ALMEIDA)',rede:'@odiegomedeiross',tipo:'INTERNO',head:'Bruno',pj:'D M DE ALMEIDA LTDA.',cnpj:'45.600.324/0001-07',email:'diegoma-ita@hotmail.com',sign:'28/05/2025',obs:'Vigência 12 meses — Encerrado em 28/05/2026',status:'encerrado',dataEnc:'28/05/2026',obsEnc:'Fim da vigência (12 meses)'},
+  {id:91,nome:'Eduardo Henrique Correia Morais (MINEIRO CONSULTORIA)',rede:'@mineirodastips',tipo:'INTERNO',head:'Bruno',pj:'MINEIRO CONSULTORIA LTDA.',cnpj:'51.920.522/0001-42',email:'ehenrique934@gmail.com',sign:'27/05/2025',obs:'Vigência 12 meses — Encerrado em 27/05/2026',status:'encerrado',dataEnc:'27/05/2026',obsEnc:'Fim da vigência (12 meses)'},
+  {id:92,nome:'Gabriel Castro Coelho (CASTRO MEDIA)',rede:'Tráfego Direto',tipo:'EXTERNO',head:'Castro',pj:'CASTRO MEDIA LTDA.',cnpj:'44.378.320/0001-55',email:'gabrielcastroc07@gmail.com',sign:'30/05/2025',obs:'Rescisão em curso de assinatura',status:'encerrado',dataEnc:'',obsEnc:'Rescisão em curso'},
+  // NÃO LOCALIZADOS
+  {id:93,nome:'DAMA DOS DOS LTDA. (Abigail Erica Breda)',rede:'@dama.dosdados',tipo:'INTERNO',head:'Bruno',pj:'DAMA DOS DOS LTDA.',cnpj:'61.139.737/0001-84',email:'abigailericabreda@gmail.com',sign:'-',obs:'Contrato enviado p/ assinatura — não localizado no drive. Validar com a Isa',status:'nlocal',dataEnc:'',obsEnc:''},
+  {id:94,nome:'Loicke Fabriel Santos Melo',rede:'-',tipo:'-',head:'-',pj:'-',cnpj:'-',email:'-',sign:'-',obs:'Contrato não localizado — Validar com a Isa',status:'nlocal',dataEnc:'',obsEnc:''},
+  {id:95,nome:'Arthur Eduardo Licar de Sousa',rede:'-',tipo:'-',head:'-',pj:'-',cnpj:'-',email:'-',sign:'-',obs:'Contrato não localizado — Validar com a Isa',status:'nlocal',dataEnc:'',obsEnc:''},
+  {id:96,nome:'Victor Cesar Prats Marreia',rede:'-',tipo:'-',head:'-',pj:'-',cnpj:'-',email:'-',sign:'-',obs:'Contrato não localizado — Validar com a Isa',status:'nlocal',dataEnc:'',obsEnc:''},
+  {id:97,nome:'YNGRID KAROLLYNE FERRO LIMA DE OLIVEIRA',rede:'-',tipo:'-',head:'-',pj:'-',cnpj:'-',email:'-',sign:'-',obs:'Sem dados — sem contrato localizado',status:'nlocal',dataEnc:'',obsEnc:''},
+  {id:98,nome:'Kevin Silverio dos Santos',rede:'-',tipo:'-',head:'-',pj:'-',cnpj:'-',email:'-',sign:'-',obs:'Contrato não localizado — Validar com a Isa',status:'nlocal',dataEnc:'',obsEnc:''},
+];
+
+let dados = BASE.map(c=>({...c}));
+const headFiltro = {vigentes:'Todos',processo:'Todos'};
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+function showPage(p){document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(el=>el.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');document.getElementById('tab-'+p).classList.add('active');}
+function driveCell(){return `<td class="col-drive"><a class="drive-link" href="${DRIVE}" target="_blank" title="Drive"><svg width="14" height="14" viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg"><path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47"/><path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/><path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/><path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/><path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 27h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/></svg></a></td>`;}
+function tipoBadge(t){if(t==='INTERNO')return '<span class="badge badge-interno">Interno</span>';if(t==='EXTERNO')return '<span class="badge badge-externo">Externo</span>';return '<span class="badge badge-sem">—</span>';}
+function setHead(tab,head,btn){headFiltro[tab]=head;btn.closest('.filters').querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(tab==='vigentes')renderVig();else renderProc();}
+
+function renderKPIs(){
+  const v=dados.filter(c=>c.status==='vigente');
+  const p=dados.filter(c=>c.status==='processo');
+  const e=dados.filter(c=>c.status==='encerrado');
+  const n=dados.filter(c=>c.status==='nlocal');
+  const int=v.filter(c=>c.tipo==='INTERNO').length;
+  const ext=v.filter(c=>c.tipo==='EXTERNO').length;
+  document.getElementById('kpis-vigentes').innerHTML=`<div class="kpi"><div class="kpi-label">Vigentes</div><div class="kpi-value kv-green">${v.length}</div><div class="kpi-sub">contratos ativos</div></div><div class="kpi"><div class="kpi-label">Internos</div><div class="kpi-value kv-blue">${int}</div><div class="kpi-sub">${ext} externos</div></div><div class="kpi"><div class="kpi-label">Em processo</div><div class="kpi-value kv-yellow">${p.length}</div><div class="kpi-sub">aguardando assinatura</div></div><div class="kpi"><div class="kpi-label">Encerrados</div><div class="kpi-value kv-red">${e.length}</div><div class="kpi-sub">${n.length} não localizados</div></div>`;
+  document.getElementById('kpis-processo').innerHTML=`<div class="kpi"><div class="kpi-label">Em processo</div><div class="kpi-value kv-yellow">${p.length}</div><div class="kpi-sub">aguardando assinatura</div></div><div class="kpi"><div class="kpi-label">Vigentes</div><div class="kpi-value kv-green">${v.length}</div><div class="kpi-sub">contratos ativos</div></div><div class="kpi"><div class="kpi-label">Encerrados</div><div class="kpi-value kv-red">${e.length}</div><div class="kpi-sub">arquivados</div></div><div class="kpi"><div class="kpi-label">Total</div><div class="kpi-value">${dados.length}</div><div class="kpi-sub">base geral</div></div>`;
+  document.getElementById('kpis-enc').innerHTML=`<div class="kpi"><div class="kpi-label">Encerrados</div><div class="kpi-value kv-red">${e.length}</div><div class="kpi-sub">contratos finalizados</div></div><div class="kpi"><div class="kpi-label">Com data registrada</div><div class="kpi-value">${e.filter(c=>c.dataEnc).length}</div><div class="kpi-sub">${e.filter(c=>!c.dataEnc).length} sem data</div></div><div class="kpi"><div class="kpi-label">Vigentes</div><div class="kpi-value kv-green">${v.length}</div><div class="kpi-sub">em vigência</div></div><div class="kpi"><div class="kpi-label">Total</div><div class="kpi-value">${dados.length}</div><div class="kpi-sub">base geral</div></div>`;
+  document.getElementById('kpis-nloc').innerHTML=`<div class="kpi"><div class="kpi-label">Não localizados</div><div class="kpi-value kv-purple">${n.length}</div><div class="kpi-sub">pendente validação</div></div><div class="kpi"><div class="kpi-label">Ação necessária</div><div class="kpi-value kv-yellow">${n.length}</div><div class="kpi-sub">validar com a Isa</div></div><div class="kpi"><div class="kpi-label">Vigentes</div><div class="kpi-value kv-green">${v.length}</div><div class="kpi-sub">em vigência</div></div><div class="kpi"><div class="kpi-label">Total</div><div class="kpi-value">${dados.length}</div><div class="kpi-sub">base geral</div></div>`;
+  document.getElementById('tc-vigentes').textContent=v.length;
+  document.getElementById('tc-processo').textContent=p.length;
+  document.getElementById('tc-encerrados').textContent=e.length;
+  document.getElementById('tc-nlocalizados').textContent=n.length;
+}
+
+function buildRow(c,acaoBtns){
+  return `<tr>
+    <td class="col-nome" style="font-size:13px;font-weight:500">${c.nome}</td>
+    <td class="col-rede" style="font-size:11px;color:#555">${c.rede}</td>
+    <td class="col-tipo">${tipoBadge(c.tipo)}</td>
+    <td class="col-head" style="font-size:12px;color:#666">${c.head}</td>
+    <td class="col-pj" style="font-size:11px;color:#555">${c.pj||'-'}<span class="tag-line">${c.cnpj&&c.cnpj!=='-'?c.cnpj:''}</span></td>
+    <td class="col-sign" style="font-size:12px;color:#555">${c.sign||'-'}</td>
+    <td class="col-obs" style="font-size:11px;color:#888">${c.obs||'-'}</td>
+    ${driveCell()}
+    <td class="col-acao" style="text-align:right">${acaoBtns}</td>
+  </tr>`;
+}
+
+function renderVig(){
+  const q=document.getElementById('searchVig').value.toLowerCase();
+  const hf=headFiltro.vigentes;
+  let d=dados.filter(c=>c.status==='vigente'&&(hf==='Todos'||c.head.trim()===hf)&&(!q||c.nome.toLowerCase().includes(q)));
+  document.getElementById('countVig').textContent=`${d.length} afiliado${d.length!==1?'s':''}`;
+  document.getElementById('tbody-vig').innerHTML=d.length?d.map(c=>buildRow(c,`<button class="btn-enc" onclick="openEnc(${c.id})">Encerrar</button>`)).join(''):'<tr class="empty-row"><td colspan="9">Nenhum resultado</td></tr>';
+}
+
+function renderProc(){
+  const q=document.getElementById('searchProc').value.toLowerCase();
+  const hf=headFiltro.processo;
+  let d=dados.filter(c=>c.status==='processo'&&(hf==='Todos'||c.head.trim()===hf)&&(!q||c.nome.toLowerCase().includes(q)));
+  document.getElementById('countProc').textContent=`${d.length} afiliado${d.length!==1?'s':''}`;
+  document.getElementById('tbody-proc').innerHTML=d.length?d.map(c=>`<tr>
+    <td class="col-nome" style="font-size:13px;font-weight:500">${c.nome}</td>
+    <td class="col-rede" style="font-size:11px;color:#555">${c.rede}</td>
+    <td class="col-tipo">${tipoBadge(c.tipo)}</td>
+    <td class="col-head" style="font-size:12px;color:#666">${c.head}</td>
+    <td class="col-pj" style="font-size:11px;color:#555">${c.pj||'-'}<span class="tag-line">${c.cnpj&&c.cnpj!=='-'?c.cnpj:''}</span></td>
+    <td class="col-sign" style="font-size:11px;color:#555">${c.email||'-'}</td>
+    <td class="col-obs" style="font-size:11px;color:#888">${c.obs||'-'}</td>
+    ${driveCell()}
+    <td class="col-acao" style="text-align:right"><button class="btn-sign" onclick="openSign(${c.id})">Assinar</button></td>
+  </tr>`).join(''):'<tr class="empty-row"><td colspan="9">Nenhum resultado</td></tr>';
+}
+
+function renderEnc(){
+  const q=document.getElementById('searchEnc').value.toLowerCase();
+  let d=dados.filter(c=>c.status==='encerrado'&&(!q||c.nome.toLowerCase().includes(q)));
+  document.getElementById('countEnc').textContent=`${d.length} afiliado${d.length!==1?'s':''}`;
+  document.getElementById('tbody-enc').innerHTML=d.length?d.map(c=>`<tr>
+    <td class="col-nome" style="font-size:13px"><span style="font-weight:500">${c.nome}</span>${c.dataEnc?`<span class="tag-line" style="color:#b91c1c">Enc. em: ${c.dataEnc}</span>`:''}</td>
+    <td class="col-rede" style="font-size:11px;color:#888">${c.rede}</td>
+    <td class="col-tipo">${tipoBadge(c.tipo)}</td>
+    <td class="col-head" style="font-size:12px;color:#888">${c.head}</td>
+    <td class="col-pj" style="font-size:11px;color:#888">${c.pj||'-'}</td>
+    <td class="col-sign" style="font-size:12px;color:#888">${c.dataEnc||c.sign||'-'}</td>
+    <td class="col-obs" style="font-size:11px;color:#888">${c.obsEnc||c.obs||'-'}</td>
+    ${driveCell()}
+    <td class="col-acao" style="text-align:right"><button class="btn-reat" onclick="openReat(${c.id})">Reativar</button></td>
+  </tr>`).join(''):'<tr class="empty-row"><td colspan="9">Nenhum resultado</td></tr>';
+}
+
+function renderNloc(){
+  const q=document.getElementById('searchNloc').value.toLowerCase();
+  let d=dados.filter(c=>c.status==='nlocal'&&(!q||c.nome.toLowerCase().includes(q)));
+  document.getElementById('countNloc').textContent=`${d.length} afiliado${d.length!==1?'s':''}`;
+  document.getElementById('tbody-nloc').innerHTML=d.length?d.map(c=>`<tr class="nloc-row">
+    <td class="col-nome" style="font-size:13px;font-weight:500">${c.nome}</td>
+    <td class="col-rede" style="font-size:11px;color:#888">${c.rede||'-'}</td>
+    <td class="col-tipo">${tipoBadge(c.tipo)}</td>
+    <td class="col-head" style="font-size:12px;color:#888">${c.head||'-'}</td>
+    <td class="col-pj" style="font-size:11px;color:#888">${c.pj||'-'}</td>
+    <td class="col-sign" style="font-size:11px;color:#888">${c.email||'-'}</td>
+    <td class="col-obs" style="font-size:11px;color:#6b21a8;font-weight:500" colspan="2">${c.obs}</td>
+    ${driveCell()}
+    <td class="col-acao" style="text-align:right"><button class="btn-sign" onclick="openSign(${c.id})">Assinar</button></td>
+  </tr>`).join(''):'<tr class="empty-row"><td colspan="10">Nenhum resultado</td></tr>';
+}
+
+let pendId=null;
+function openEnc(id){pendId=id;document.getElementById('menc-nome').textContent=dados.find(x=>x.id===id).nome;document.getElementById('menc-data').value=TODAY.toISOString().slice(0,10);document.getElementById('menc-obs').value='';document.getElementById('modalEnc').classList.add('open');}
+function confirmarEnc(){const c=dados.find(x=>x.id===pendId);const raw=document.getElementById('menc-data').value;if(raw){const[y,m,d]=raw.split('-');c.dataEnc=`${d}/${m}/${y}`;}else c.dataEnc='';c.obsEnc=document.getElementById('menc-obs').value.trim();c.status='encerrado';closeModals();renderAll();toast(`✓ ${c.nome} movido para Encerrados`);showPage('encerrados');}
+function openReat(id){pendId=id;document.getElementById('mreat-nome').textContent=dados.find(x=>x.id===id).nome;document.getElementById('modalReat').classList.add('open');}
+function confirmarReat(){const c=dados.find(x=>x.id===pendId);c.status='vigente';c.dataEnc='';c.obsEnc='';closeModals();renderAll();toast(`✓ ${c.nome} reativado`);showPage('vigentes');}
+function openSign(id){pendId=id;document.getElementById('msign-nome').textContent=dados.find(x=>x.id===id).nome;document.getElementById('msign-data').value=TODAY.toISOString().slice(0,10);document.getElementById('msign-obs').value='';document.getElementById('modalSign').classList.add('open');}
+function confirmarSign(){const c=dados.find(x=>x.id===pendId);const raw=document.getElementById('msign-data').value;if(raw){const[y,m,d]=raw.split('-');c.sign=`${d}/${m}/${y}`;}const o=document.getElementById('msign-obs').value.trim();if(o)c.obs=o;c.status='vigente';closeModals();renderAll();toast(`✓ ${c.nome} marcado como assinado e movido para Vigentes`);showPage('vigentes');}
+function closeModals(){['modalEnc','modalReat','modalSign'].forEach(id=>document.getElementById(id).classList.remove('open'));pendId=null;}
+['modalEnc','modalReat','modalSign'].forEach(id=>{document.getElementById(id).addEventListener('click',e=>{if(e.target===e.currentTarget)closeModals();});});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModals();});
+function renderAll(){renderKPIs();renderVig();renderProc();renderEnc();renderNloc();}
+renderAll();
+</script>
 </body>
 </html>
