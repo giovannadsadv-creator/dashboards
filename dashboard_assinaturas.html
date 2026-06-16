@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assinaturas Pendentes — Zapsign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F6F3;
+  --surface:#FFFFFF;
+  --border:#E5E3DC;
+  --text:#1A1A1A;
+  --muted:#888580;
+  --accent:#2D5BE3;
+  --accent-light:#EEF2FD;
+  --danger:#D94040;
+  --danger-light:#FDEAEA;
+  --warn:#D97706;
+  --warn-light:#FEF3C7;
+  --green:#1A7A4A;
+  --green-light:#E8F5EE;
+  --radius:10px;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04);
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* ── Header ── */
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.header-left{display:flex;align-items:center;gap:10px}
+.header-logo{width:28px;height:28px;background:var(--accent);border-radius:7px;display:flex;align-items:center;justify-content:center}
+.header-logo svg{width:16px;height:16px;fill:#fff}
+.header-title{font-size:14px;font-weight:600;color:var(--text)}
+.header-date{font-size:12px;color:var(--muted)}
+.btn-zapsign{background:var(--accent);color:#fff;font-size:12px;font-weight:600;padding:7px 14px;border-radius:7px;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;text-decoration:none;transition:background .15s}
+.btn-zapsign:hover{background:#2249C0}
+.btn-zapsign svg{width:13px;height:13px;fill:#fff}
+
+/* ── Main ── */
+.main{max-width:900px;margin:0 auto;padding:2rem 1.5rem}
+
+/* ── Summary bar ── */
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.75rem}
+.sum-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.9rem 1.1rem;box-shadow:var(--shadow)}
+.sum-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:5px}
+.sum-value{font-size:26px;font-weight:700;line-height:1}
+.sum-sub{font-size:11px;color:var(--muted);margin-top:3px}
+.val-danger{color:var(--danger)}
+.val-warn{color:var(--warn)}
+.val-green{color:var(--green)}
+.val-accent{color:var(--accent)}
+
+/* ── Alert banner ── */
+.alert-banner{background:var(--danger-light);border:1px solid #F5C0C0;border-radius:var(--radius);padding:.85rem 1.1rem;margin-bottom:1.5rem;display:none;align-items:center;gap:10px;font-size:13px;color:var(--danger);font-weight:500}
+.alert-banner.show{display:flex}
+.alert-banner svg{width:18px;height:18px;fill:var(--danger);flex-shrink:0}
+
+/* ── Section title ── */
+.section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:.85rem;display:flex;align-items:center;gap:6px}
+
+/* ── Pending list ── */
+.pending-list{display:flex;flex-direction:column;gap:10px;margin-bottom:2rem}
+.pending-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;box-shadow:var(--shadow);display:flex;align-items:center;gap:14px;transition:border-color .15s,box-shadow .15s}
+.pending-card:hover{border-color:#b0b8d8;box-shadow:0 2px 8px rgba(45,91,227,.08)}
+.pending-card.urgent{border-left:3px solid var(--danger)}
+.pending-card.warning{border-left:3px solid var(--warn)}
+.pending-card.ok{border-left:3px solid #9CA3AF}
+.card-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.icon-contrato{background:#EEF2FD}
+.icon-nda{background:#FEF3C7}
+.icon-aditivo{background:#E8F5EE}
+.icon-outros{background:#F3F0FF}
+.card-icon svg{width:18px;height:18px}
+.card-body{flex:1;min-width:0}
+.card-name{font-size:13px;font-weight:600;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.card-type{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;padding:2px 7px;border-radius:20px}
+.type-contrato{background:#EEF2FD;color:#2D5BE3}
+.type-nda{background:#FEF3C7;color:#92400E}
+.type-aditivo{background:#E8F5EE;color:#1A7A4A}
+.type-distrato{background:#FEE2E2;color:#991B1B}
+.type-outros{background:#F3F0FF;color:#5B21B6}
+.card-date{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.card-date svg{width:12px;height:12px;fill:currentColor}
+.date-urgent{color:var(--danger);font-weight:600}
+.date-warning{color:var(--warn);font-weight:600}
+.card-actions{display:flex;gap:6px;flex-shrink:0}
+.btn-sign{background:var(--accent);color:#fff;font-size:11px;font-weight:600;padding:6px 12px;border-radius:7px;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:background .15s}
+.btn-sign:hover{background:#2249C0}
+.btn-sign svg{width:11px;height:11px;fill:#fff}
+.btn-done{background:var(--green-light);color:var(--green);font-size:11px;font-weight:600;padding:6px 12px;border-radius:7px;border:1px solid #B6E0CB;cursor:pointer;transition:background .15s}
+.btn-done:hover{background:#d4eedd}
+.btn-del{background:none;border:none;cursor:pointer;color:#ccc;padding:4px;border-radius:5px;transition:color .15s}
+.btn-del:hover{color:var(--danger)}
+.btn-del svg{width:14px;height:14px;fill:currentColor}
+
+/* ── Empty state ── */
+.empty{text-align:center;padding:3rem 1rem;color:var(--muted)}
+.empty svg{width:40px;height:40px;fill:var(--border);margin-bottom:12px}
+.empty-title{font-size:14px;font-weight:600;color:#ccc;margin-bottom:5px}
+.empty-sub{font-size:12px}
+
+/* ── Signed list ── */
+.signed-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem 1.2rem;display:flex;align-items:center;gap:12px;opacity:.65;margin-bottom:8px}
+.signed-check{width:20px;height:20px;background:var(--green-light);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.signed-check svg{width:11px;height:11px;fill:var(--green)}
+.signed-name{font-size:12px;font-weight:500;flex:1;text-decoration:line-through;color:var(--muted)}
+.signed-date{font-size:11px;color:var(--muted)}
+
+/* ── Add form ── */
+.add-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;box-shadow:var(--shadow);margin-bottom:2rem}
+.add-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+.add-toggle-label{font-size:13px;font-weight:600;color:var(--accent)}
+.add-toggle svg{width:16px;height:16px;fill:var(--accent);transition:transform .2s}
+.add-toggle.open svg{transform:rotate(45deg)}
+.add-form{display:none;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
+.add-form.show{display:block}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group.full{grid-column:1/-1}
+.form-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.form-input,.form-select{font-size:13px;padding:8px 11px;border:1px solid var(--border);border-radius:7px;background:var(--bg);color:var(--text);outline:none;font-family:'Inter',sans-serif;transition:border-color .15s}
+.form-input:focus,.form-select:focus{border-color:var(--accent);background:#fff}
+.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:4px}
+.btn-cancel{background:none;border:1px solid var(--border);color:var(--muted);font-size:12px;font-weight:500;padding:7px 14px;border-radius:7px;cursor:pointer}
+.btn-cancel:hover{background:var(--bg)}
+.btn-add{background:var(--accent);color:#fff;font-size:12px;font-weight:600;padding:7px 16px;border-radius:7px;border:none;cursor:pointer}
+.btn-add:hover{background:#2249C0}
+
+/* ── Signed toggle ── */
+.signed-toggle{font-size:12px;color:var(--muted);cursor:pointer;margin-bottom:.75rem;display:flex;align-items:center;gap:5px;user-select:none}
+.signed-toggle svg{width:12px;height:12px;fill:var(--muted);transition:transform .2s}
+.signed-toggle.open svg{transform:rotate(90deg)}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="header-logo">
+      <svg viewBox="0 0 20 20"><path d="M4 2h8l4 4v12H4V2zm8 0v4h4"/><path d="M7 9h6M7 12h6M7 15h4" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+    </div>
+    <div class="header-title">Assinaturas Pendentes</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <span class="header-date" id="headerDate"></span>
+    <a href="https://zapsign.com.br" target="_blank" class="btn-zapsign">
+      <svg viewBox="0 0 20 20"><path d="M11 3l6 6-6 6M5 9h12" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Abrir Zapsign
+    </a>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- Alert banner -->
+  <div class="alert-banner" id="alertBanner">
+    <svg viewBox="0 0 20 20"><path d="M10 2L2 17h16L10 2zm0 5v5m0 2v1" stroke="#D94040" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
+    <span id="alertText"></span>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary">
+    <div class="sum-card">
+      <div class="sum-label">Pendentes</div>
+      <div class="sum-value val-accent" id="sumPending">0</div>
+      <div class="sum-sub">aguardando assinatura</div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-label">Aguardando +30 dias</div>
+      <div class="sum-value val-danger" id="sumLong">0</div>
+      <div class="sum-sub">mais de 1 mês em aberto</div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-label">Aguardando +7 dias</div>
+      <div class="sum-value val-warn" id="sumMed">0</div>
+      <div class="sum-sub">entre 7 e 30 dias</div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-label">Assinados</div>
+      <div class="sum-value val-green" id="sumSigned">0</div>
+      <div class="sum-sub">concluídos</div>
+    </div>
+  </div>
+
+  <!-- Add document -->
+  <div class="add-section">
+    <div class="add-toggle" id="addToggle" onclick="toggleForm()">
+      <svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="#2D5BE3" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+      <span class="add-toggle-label">Adicionar documento pendente</span>
+    </div>
+    <div class="add-form" id="addForm">
+      <div class="form-row">
+        <div class="form-group full">
+          <label class="form-label">Nome do documento</label>
+          <input type="text" class="form-input" id="docName" placeholder="Ex: Contrato de Prestação de Serviços — Fornecedor X">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Tipo</label>
+          <select class="form-select" id="docType">
+            <option value="Contrato">Contrato</option>
+            <option value="NDA">NDA</option>
+            <option value="Aditivo">Aditivo</option>
+            <option value="Distrato">Distrato</option>
+            <option value="Outros">Outros</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Data limite para assinar</label>
+          <input type="date" class="form-input" id="docDate">
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-cancel" onclick="toggleForm()">Cancelar</button>
+        <button class="btn-add" onclick="addDoc()">Adicionar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pending list -->
+  <div class="section-title">
+    <svg width="13" height="13" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#888580" stroke-width="1.8"/><path d="M10 6v4l3 2" stroke="#888580" stroke-width="1.8" stroke-linecap="round"/></svg>
+    Documentos pendentes
+  </div>
+  <div class="pending-list" id="pendingList"></div>
+
+  <!-- Signed -->
+  <div class="signed-toggle" id="signedToggle" onclick="toggleSigned()" style="display:none">
+    <svg viewBox="0 0 20 20"><path d="M7 10l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Ver documentos assinados (<span id="signedCount">0</span>)
+  </div>
+  <div id="signedList" style="display:none"></div>
+
+</div>
+
+<script>
+// ── Data store (localStorage) ──
+const STORE = 'assinaturas_v1';
+function load(){try{return JSON.parse(localStorage.getItem(STORE))||{pending:[],signed:[]};}catch{return{pending:[],signed:[]};}}
+function save(d){localStorage.setItem(STORE,JSON.stringify(d));}
+
+// ── Helpers ──
+function today(){return new Date().toISOString().split('T')[0];}
+function fmtDate(s){if(!s)return'—';const[y,m,d]=s.split('-');return`${d}/${m}/${y}`;}
+
+// How many days ago was addedAt
+function waitingDays(addedAt){
+  if(!addedAt)return 0;
+  const t=new Date(today()),dt=new Date(addedAt);
+  return Math.max(0,Math.round((t-dt)/(1000*60*60*24)));
+}
+
+// Card color based on waiting time
+function cardClass(addedAt){
+  const d=waitingDays(addedAt);
+  if(d>=30)return'urgent';
+  if(d>=7)return'warning';
+  return'ok';
+}
+
+// Waiting label shown in card
+function waitingLabel(addedAt){
+  const d=waitingDays(addedAt);
+  const clockSvg=`<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M10 6v4l2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>`;
+  if(d===0) return`<span class="card-date">Adicionado hoje</span>`;
+  if(d>=30) return`<span class="card-date date-urgent">${clockSvg}Aguardando há ${d} dia${d>1?'s':''}</span>`;
+  if(d>=7)  return`<span class="card-date date-warning">${clockSvg}Aguardando há ${d} dia${d>1?'s':''}</span>`;
+  return`<span class="card-date">${clockSvg}Aguardando há ${d} dia${d>1?'s':''}</span>`;
+}
+
+function typeIcon(t){
+  const icons={
+    Contrato:`<svg viewBox="0 0 20 20" fill="none"><rect x="4" y="2" width="12" height="16" rx="2" stroke="#2D5BE3" stroke-width="1.6"/><path d="M7 7h6M7 10h6M7 13h4" stroke="#2D5BE3" stroke-width="1.4" stroke-linecap="round"/></svg>`,
+    NDA:`<svg viewBox="0 0 20 20" fill="none"><path d="M10 2L4 6v5c0 3.3 2.6 5.7 6 6.9 3.4-1.2 6-3.6 6-6.9V6L10 2z" stroke="#D97706" stroke-width="1.6"/></svg>`,
+    Aditivo:`<svg viewBox="0 0 20 20" fill="none"><rect x="4" y="2" width="12" height="16" rx="2" stroke="#1A7A4A" stroke-width="1.6"/><path d="M10 7v6M7 10h6" stroke="#1A7A4A" stroke-width="1.4" stroke-linecap="round"/></svg>`,
+    Distrato:`<svg viewBox="0 0 20 20" fill="none"><rect x="4" y="2" width="12" height="16" rx="2" stroke="#D94040" stroke-width="1.6"/><path d="M7.5 7.5l5 5M12.5 7.5l-5 5" stroke="#D94040" stroke-width="1.4" stroke-linecap="round"/></svg>`,
+    Outros:`<svg viewBox="0 0 20 20" fill="none"><rect x="4" y="2" width="12" height="16" rx="2" stroke="#5B21B6" stroke-width="1.6"/><circle cx="10" cy="13" r="1" fill="#5B21B6"/><path d="M10 7v4" stroke="#5B21B6" stroke-width="1.4" stroke-linecap="round"/></svg>`,
+  };
+  return icons[t]||icons.Outros;
+}
+function iconBg(t){return{Contrato:'icon-contrato',NDA:'icon-nda',Aditivo:'icon-aditivo',Distrato:'',Outros:'icon-outros'}[t]||'icon-outros';}
+function typeCls(t){return{Contrato:'type-contrato',NDA:'type-nda',Aditivo:'type-aditivo',Distrato:'type-distrato',Outros:'type-outros'}[t]||'type-outros';}
+
+// ── Render ──
+function render(){
+  const d=load();
+
+  // sort: longest waiting first
+  d.pending.sort((a,b)=>waitingDays(b.addedAt)-waitingDays(a.addedAt));
+
+  // counts
+  const nLong=d.pending.filter(p=>waitingDays(p.addedAt)>=30).length;
+  const nMed=d.pending.filter(p=>{ const w=waitingDays(p.addedAt); return w>=7&&w<30; }).length;
+  document.getElementById('sumPending').textContent=d.pending.length;
+  document.getElementById('sumLong').textContent=nLong;
+  document.getElementById('sumMed').textContent=nMed;
+  document.getElementById('sumSigned').textContent=d.signed.length;
+
+  // alert banner
+  const banner=document.getElementById('alertBanner');
+  const alertText=document.getElementById('alertText');
+  if(nLong>0){
+    banner.classList.add('show');
+    alertText.textContent=`${nLong} documento${nLong>1?'s estão':' está'} aguardando assinatura há mais de 30 dias. Acesse a Zapsign para assinar.`;
+  } else {
+    banner.classList.remove('show');
+  }
+
+  // pending list
+  const pl=document.getElementById('pendingList');
+  if(d.pending.length===0){
+    pl.innerHTML=`<div class="empty"><svg viewBox="0 0 40 40" fill="none"><rect x="8" y="4" width="24" height="32" rx="4" stroke="#E5E3DC" stroke-width="2"/><path d="M14 14h12M14 20h12M14 26h8" stroke="#E5E3DC" stroke-width="2" stroke-linecap="round"/></svg><div class="empty-title">Nenhum documento pendente</div><div class="empty-sub">Adicione um documento acima quando precisar da assinatura do Guilherme</div></div>`;
+  } else {
+    pl.innerHTML=d.pending.map((p,i)=>`
+    <div class="pending-card ${cardClass(p.addedAt)}">
+      <div class="card-icon ${iconBg(p.type)}">${typeIcon(p.type)}</div>
+      <div class="card-body">
+        <div class="card-name" title="${p.name}">${p.name}</div>
+        <div class="card-meta">
+          <span class="card-type ${typeCls(p.type)}">${p.type}</span>
+          ${waitingLabel(p.addedAt)}
+        </div>
+      </div>
+      <div class="card-actions">
+        <a href="https://zapsign.com.br" target="_blank" class="btn-sign">
+          <svg viewBox="0 0 20 20"><path d="M11 3l6 6-6 6M5 9h12" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Assinar
+        </a>
+        <button class="btn-done" onclick="markDone(${i})">✓ Feito</button>
+        <button class="btn-del" onclick="deleteDoc(${i})" title="Remover">
+          <svg viewBox="0 0 20 20"><path d="M6 6l8 8M14 6l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
+        </button>
+      </div>
+    </div>`).join('');
+  }
+
+  // signed
+  const sl=document.getElementById('signedList');
+  const st=document.getElementById('signedToggle');
+  const sc=document.getElementById('signedCount');
+  if(d.signed.length>0){
+    st.style.display='flex';
+    sc.textContent=d.signed.length;
+    sl.innerHTML=d.signed.slice().reverse().map(p=>`
+    <div class="signed-card">
+      <div class="signed-check"><svg viewBox="0 0 20 20"><path d="M4 10l5 5 7-7" stroke="#1A7A4A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <span class="signed-name">${p.name}</span>
+      <span class="signed-date">Assinado em ${p.signedAt}</span>
+    </div>`).join('');
+  } else {
+    st.style.display='none';
+    sl.style.display='none';
+  }
+}
+
+// ── Actions ──
+function toggleForm(){
+  const form=document.getElementById('addForm');
+  const toggle=document.getElementById('addToggle');
+  const isOpen=form.classList.contains('show');
+  form.classList.toggle('show',!isOpen);
+  toggle.classList.toggle('open',!isOpen);
+  if(!isOpen){
+    // set default date to today
+    document.getElementById('docDate').value=today();
+    document.getElementById('docName').focus();
+  }
+}
+
+function addDoc(){
+  const name=document.getElementById('docName').value.trim();
+  const type=document.getElementById('docType').value;
+  const date=document.getElementById('docDate').value;
+  if(!name){document.getElementById('docName').focus();document.getElementById('docName').style.borderColor='var(--danger)';return;}
+  document.getElementById('docName').style.borderColor='';
+  const d=load();
+  d.pending.push({name,type,date,addedAt:today()});
+  save(d);
+  document.getElementById('docName').value='';
+  document.getElementById('docDate').value=today();
+  toggleForm();
+  render();
+}
+
+function markDone(i){
+  const d=load();
+  const doc=d.pending.splice(i,1)[0];
+  doc.signedAt=fmtDate(today());
+  d.signed.push(doc);
+  save(d);
+  render();
+}
+
+function deleteDoc(i){
+  if(!confirm('Remover este documento da lista?'))return;
+  const d=load();
+  d.pending.splice(i,1);
+  save(d);
+  render();
+}
+
+function toggleSigned(){
+  const sl=document.getElementById('signedList');
+  const st=document.getElementById('signedToggle');
+  const isOpen=sl.style.display!=='none';
+  sl.style.display=isOpen?'none':'block';
+  st.classList.toggle('open',!isOpen);
+}
+
+// ── Date header ──
+function setDate(){
+  const now=new Date();
+  const opts={weekday:'long',day:'numeric',month:'long',year:'numeric'};
+  document.getElementById('headerDate').textContent=now.toLocaleDateString('pt-BR',opts);
+}
+
+// ── Enter to add ──
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&document.getElementById('addForm').classList.contains('show'))addDoc();
+  if(e.key==='Escape'&&document.getElementById('addForm').classList.contains('show'))toggleForm();
+});
+
+// ── Pre-load documents if store is empty ──
+(function preload(){
+  const existing = load();
+  if(existing.pending.length > 0 || existing.signed.length > 0) return; // already has data
+  const initial = {
+    pending:[
+      {name:"NDA - Sortenabet x DR NOTEBOOK - 16.06.2026.docx.pdf", type:"NDA", date:"", addedAt:"2026-06-16"},
+      {name:"NDA - Sortenabet x Clara.pdf", type:"NDA", date:"", addedAt:"2026-06-12"},
+      {name:"Termo de Adesão - Sub Guilherme de Oliveira Fernandes (Lvimidia).docx.pdf", type:"Contrato", date:"", addedAt:"2026-06-09"},
+      {name:"TERMO DE DISTRATO - Sortenabet x Gilberto Bezerra Machado Júnior.docx.pdf", type:"Distrato", date:"", addedAt:"2026-06-02"},
+      {name:"MINUTA CONTRATUAL WHATSAPP MARKETING - JP COMUNICA.pdf", type:"Contrato", date:"", addedAt:"2026-06-02"},
+      {name:"Termo de Adesão - Sub Joice (Lvimidia).docx", type:"Contrato", date:"", addedAt:"2026-05-29"},
+      {name:"Contrato de Prestação de Serviços - AD MASTERS", type:"Contrato", date:"", addedAt:"2026-05-26"},
+      {name:"Primeiro Termo Aditivo - Experto Pedro Abreu (FCS).pdf", type:"Aditivo", date:"", addedAt:"2026-05-25"},
+      {name:"1° Aditivo Sortenabet & Nimble.docx", type:"Aditivo", date:"", addedAt:"2026-05-18"},
+      {name:"Contrato de Prestação de Serviços - Afiliado Fusion - Josevan", type:"Contrato", date:"", addedAt:"2026-05-13"},
+      {name:"Contrato de Prestação de Serviços - Expert Inaldo (Betfusion).docx", type:"Contrato", date:"", addedAt:"2026-04-28"},
+      {name:"Contrato - Betfusion x Letícia Beppler.docx", type:"Contrato", date:"", addedAt:"2026-04-27"},
+      {name:"Contrato de Prestação de Serviços - Betfusion x Davi.docx", type:"Contrato", date:"", addedAt:"2026-04-24"},
+      {name:"Contrato de Prestação de Serviços - Expert JR.docx", type:"Contrato", date:"", addedAt:"2026-04-24"},
+      {name:"TERMO DE DISTRATO - Sortenabet x Diogo Freire.pdf", type:"Distrato", date:"", addedAt:"2026-04-24"},
+      {name:"Contrato de Prestação de Serviços - Tipminer x Patrick.docx", type:"Contrato", date:"", addedAt:"2026-04-13"},
+      {name:"Termo de Adesão - Sub Yasmin (FCS)", type:"Contrato", date:"", addedAt:"2026-04-08"},
+      {name:"Contrato de Prestação de Serviços - Fusion x Letícia", type:"Contrato", date:"", addedAt:"2026-03-12"},
+      {name:"TERMO DE DISTRATO - Sortenabet x Afiliaboss.pdf", type:"Distrato", date:"", addedAt:"2026-02-18"},
+      {name:"CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Gustavo).docx.pdf", type:"Contrato", date:"", addedAt:"2026-02-09"},
+      {name:"CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Juliano).docx.pdf", type:"Contrato", date:"", addedAt:"2026-02-09"},
+      {name:"CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Matheus).docx", type:"Contrato", date:"", addedAt:"2026-02-09"},
+      {name:"CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Bruno).docx", type:"Contrato", date:"", addedAt:"2026-02-09"},
+      {name:"Termo de Rescisão - SorteNaBet x Black Track.pdf", type:"Distrato", date:"", addedAt:"2026-01-29"},
+      {name:"AWS Cloud - Contrato de Faturamento para Usuário Final 11.25.docx", type:"Contrato", date:"", addedAt:"2026-01-28"},
+      {name:"CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE CONSULTORIA EM CRM - Betfusion.pdf", type:"Contrato", date:"", addedAt:"2025-11-28"},
+      {name:"Contrato de Prestação de Serviços - Vendedora Monique.docx", type:"Contrato", date:"", addedAt:"2025-11-21"},
+    ],
+    signed:[]
+  };
+  save(initial);
+})();
+
+setDate();
+render();
+</script>
+</body>
+</html>
