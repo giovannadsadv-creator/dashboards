@@ -133,6 +133,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .signed-toggle{font-size:12px;color:var(--muted);cursor:pointer;margin-bottom:.75rem;display:flex;align-items:center;gap:5px;user-select:none}
 .signed-toggle svg{width:12px;height:12px;fill:var(--muted);transition:transform .2s}
 .signed-toggle.open svg{transform:rotate(90deg)}
+@keyframes slideIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
@@ -378,13 +379,42 @@ function addDoc(){
   if(!name){document.getElementById('docName').focus();document.getElementById('docName').style.borderColor='var(--danger)';return;}
   document.getElementById('docName').style.borderColor='';
   const d=load();
-  d.pending.push({name,type,date,addedAt:today()});
+  const newDoc={name,type,date,addedAt:today()};
+  d.pending.push(newDoc);
+  // save last added for alert
+  d.lastAdded={name,type,addedAt:today()};
   save(d);
   document.getElementById('docName').value='';
   document.getElementById('docDate').value=today();
   toggleForm();
+  showNewDocAlert(newDoc);
   render();
 }
+
+function showNewDocAlert(doc){
+  // remove existing alert if any
+  const existing=document.getElementById('newDocAlert');
+  if(existing)existing.remove();
+  const div=document.createElement('div');
+  div.id='newDocAlert';
+  div.style.cssText=`background:#fff;border:1.5px solid #2D5BE3;border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:14px;box-shadow:0 2px 12px rgba(45,91,227,.12);animation:slideIn .3s ease`;
+  div.innerHTML=`
+    <div style="width:38px;height:38px;background:#EEF2FD;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm0 4v4l3 2" stroke="#2D5BE3" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </div>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:13px;font-weight:700;color:#2D5BE3;margin-bottom:2px">✅ Novo documento adicionado!</div>
+      <div style="font-size:12px;color:#444;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${doc.name}">${doc.name}</div>
+      <div style="font-size:11px;color:#888;margin-top:2px">Aguardando assinatura do Guilherme · Adicionado hoje</div>
+    </div>
+    <button onclick="this.parentElement.remove()" style="background:none;border:none;cursor:pointer;color:#bbb;font-size:18px;padding:4px;flex-shrink:0">✕</button>
+  `;
+  const pendingList=document.getElementById('pendingList');
+  pendingList.parentElement.insertBefore(div,pendingList);
+  // auto-dismiss after 8s
+  setTimeout(()=>div&&div.remove(),8000);
+}
+
 
 function markDone(i){
   const d=load();
