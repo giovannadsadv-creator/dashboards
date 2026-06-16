@@ -381,8 +381,9 @@ function addDoc(){
   const d=load();
   const newDoc={name,type,date,addedAt:today()};
   d.pending.push(newDoc);
-  // save last added for alert
-  d.lastAdded={name,type,addedAt:today()};
+  // accumulate all docs added today for expandable alert
+  if(!d.addedToday||d.addedToday.length===0||d.addedToday[0].addedAt!==today()) d.addedToday=[];
+  d.addedToday.push({name,type,addedAt:today(),addedTs:Date.now()});
   save(d);
   document.getElementById('docName').value='';
   document.getElementById('docDate').value=today();

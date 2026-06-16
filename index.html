@@ -203,22 +203,44 @@ try {
   document.getElementById('statLongo').textContent = nLong;
   document.getElementById('statMedio').textContent = nMed;
 
-  // Show alert if a new doc was added today
-  const lastAdded = store.lastAdded;
-  if(lastAdded && lastAdded.addedAt === new Date().toISOString().split('T')[0]){
+  // Show expandable alert for all docs added in last 24h
+  const addedToday = store.addedToday || [];
+  const recentDocs = addedToday.filter(d => {
+    if(d.addedTs) return (Date.now() - d.addedTs) < 24*60*60*1000;
+    return d.addedAt === new Date().toISOString().split('T')[0];
+  });
+  if(recentDocs.length > 0){
+    const n = recentDocs.length;
+    const listItems = recentDocs.map(d=>`
+      <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #fff3e8;last-child:border:none">
+        <span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:#fff3e8;color:#c2410c;border:1px solid #fed7aa;white-space:nowrap;flex-shrink:0">${d.type}</span>
+        <span style="font-size:12px;color:#444;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${d.name}</span>
+      </div>`).join('');
     const alertDiv = document.createElement('div');
-    alertDiv.style.cssText = 'max-width:1000px;margin:0 auto 0;padding:0 40px;';
+    alertDiv.style.cssText = 'max-width:1000px;margin:0 auto;padding:0 40px;';
     alertDiv.innerHTML = `
-      <div style="margin-top:20px;background:#fff;border:1.5px solid #c2410c;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 12px rgba(194,65,12,.1);animation:slideIn .3s ease">
-        <div style="width:36px;height:36px;background:#fff3e8;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-          <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm0 4v4l3 2" stroke="#c2410c" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <div style="margin-top:20px;background:#fff;border:1.5px solid #c2410c;border-radius:12px;box-shadow:0 2px 12px rgba(194,65,12,.1);animation:slideIn .3s ease;overflow:hidden">
+        <div style="padding:14px 18px;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="
+          const list=this.nextElementSibling;
+          const arrow=this.querySelector('.arr');
+          const open=list.style.display!=='none';
+          list.style.display=open?'none':'block';
+          arrow.style.transform=open?'rotate(0)':'rotate(180deg)';
+        ">
+          <div style="width:36px;height:36px;background:#fff3e8;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm0 4v4l3 2" stroke="#c2410c" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:700;color:#c2410c">🔔 ${n===1?'1 novo documento':n+' novos documentos'} pendente${n>1?'s':''} de assinatura!</div>
+            <div style="font-size:11px;color:#888;margin-top:2px">Aguardando assinatura do Guilherme · clique para ${n>1?'ver a lista':'ver detalhes'}</div>
+          </div>
+          <svg class="arr" width="16" height="16" viewBox="0 0 20 20" fill="none" style="transition:transform .2s;flex-shrink:0"><path d="M5 8l5 5 5-5" stroke="#c2410c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <a href="dashboard_assinaturas.html" onclick="event.stopPropagation()" style="background:#c2410c;color:#fff;font-size:12px;font-weight:600;padding:7px 14px;border-radius:7px;text-decoration:none;white-space:nowrap;flex-shrink:0">Ver agora →</a>
+          <button onclick="event.stopPropagation();this.closest('div[style*=margin-top]').remove()" style="background:none;border:none;cursor:pointer;color:#bbb;font-size:18px;padding:2px 6px;flex-shrink:0">✕</button>
         </div>
-        <div style="flex:1;min-width:0">
-          <div style="font-size:13px;font-weight:700;color:#c2410c">🔔 Novo documento pendente de assinatura!</div>
-          <div style="font-size:12px;color:#555;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${lastAdded.name} — <strong>${lastAdded.type}</strong></div>
+        <div style="display:none;padding:0 18px 12px;border-top:1px solid #fff3e8">
+          <div style="padding-top:4px">${listItems}</div>
         </div>
-        <a href="dashboard_assinaturas.html" style="background:#c2410c;color:#fff;font-size:12px;font-weight:600;padding:7px 14px;border-radius:7px;text-decoration:none;white-space:nowrap;flex-shrink:0">Ver agora →</a>
-        <button onclick="this.parentElement.parentElement.remove()" style="background:none;border:none;cursor:pointer;color:#bbb;font-size:16px;padding:2px 6px;flex-shrink:0">✕</button>
       </div>`;
     document.querySelector('.grid-wrap').prepend(alertDiv);
   }
