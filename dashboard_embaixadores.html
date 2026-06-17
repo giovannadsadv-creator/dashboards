@@ -77,6 +77,15 @@ tr:hover td { background: #fafaf8; }
 .btn-reat { display: inline-flex; align-items: center; gap: 4px; padding: 4px 9px; border-radius: 6px; border: 0.5px solid #86efac; background: #fff; color: #15803d; font-size: 11px; cursor: pointer; font-family: inherit; transition: background .12s; white-space: nowrap; }
 .btn-reat:hover { background: #f0fdf4; }
 .acao-group { display: flex; gap: 4px; justify-content: flex-end; flex-wrap: wrap; }
+.btn-add { display: inline-flex; align-items: center; gap: 7px; padding: 7px 16px; border-radius: 8px; border: 0.5px solid #15803d; background: #fff; color: #15803d; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; transition: background .12s; }
+.btn-add:hover { background: #f0fdf4; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-grid .full { grid-column: 1 / -1; }
+.modal input[type=text], .modal input[type=email], .modal select { width: 100%; padding: 8px 10px; border-radius: 8px; border: 0.5px solid #ccc; font-size: 13px; font-family: inherit; color: #1a1a18; outline: none; background: #fff; }
+.modal input[type=text]:focus, .modal input[type=email]:focus, .modal select:focus { border-color: #aac4f0; }
+.btn-ok-add { padding: 7px 18px; border-radius: 8px; border: none; background: #15803d; color: #fff; font-size: 13px; cursor: pointer; font-family: inherit; font-weight: 500; }
+.btn-ok-add:hover { background: #166534; }
+.modal-lg { width: 640px; }
 .nloc-row td { background: #faf5ff !important; }
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 1000; align-items: center; justify-content: center; }
 .modal-overlay.open { display: flex; }
@@ -135,6 +144,7 @@ tr:hover td { background: #fafaf8; }
       <button class="filter-pill" onclick="setBrand('emb','BETFUSION',this)">BETFUSION</button>
       <div class="search-wrap"><i class="ti ti-search"></i><input class="search-input" id="searchEmb" type="text" placeholder="Buscar embaixador..." oninput="renderEmb()" /></div>
       <span class="count-label" id="countEmb"></span>
+      <button class="btn-add" onclick="openAdd('emb')"><i class="ti ti-plus" style="font-size:14px"></i> Adicionar embaixador</button>
     </div>
     <div class="table-wrap"><table>
       <thead><tr>
@@ -163,6 +173,7 @@ tr:hover td { background: #fafaf8; }
       <button class="filter-pill" onclick="setBrand('inf','BETFUSION',this)">BETFUSION</button>
       <div class="search-wrap"><i class="ti ti-search"></i><input class="search-input" id="searchInf" type="text" placeholder="Buscar influenciador..." oninput="renderInf()" /></div>
       <span class="count-label" id="countInf"></span>
+      <button class="btn-add" onclick="openAdd('inf')"><i class="ti ti-plus" style="font-size:14px"></i> Adicionar influenciador</button>
     </div>
     <div class="table-wrap"><table>
       <thead><tr>
@@ -261,6 +272,46 @@ tr:hover td { background: #fafaf8; }
     </div>
   </div>
 </div>
+<!-- MODAL ADICIONAR -->
+<div class="modal-overlay" id="modalAdd">
+  <div class="modal modal-lg">
+    <h2><i class="ti ti-plus" style="color:#15803d;vertical-align:-2px;margin-right:6px"></i><span id="add-modal-title">Adicionar novo embaixador</span></h2>
+    <p class="modal-sub" style="margin-bottom:16px">Preencha os dados do novo contrato.</p>
+    <div class="form-grid">
+      <div class="modal-field full"><label>Nome *</label><input type="text" id="add-nome" placeholder="Nome completo" /></div>
+      <div class="modal-field"><label>CPF / CNPJ</label><input type="text" id="add-cpfcnpj" placeholder="000.000.000-00 ou 00.000.000/0001-00" /></div>
+      <div class="modal-field"><label>PJ contratada</label><input type="text" id="add-pj" placeholder="Nome da empresa" /></div>
+      <div class="modal-field"><label>CNPJ da contratada</label><input type="text" id="add-cnpj" placeholder="00.000.000/0001-00" /></div>
+      <div class="modal-field"><label>Marca (Branding)</label>
+        <select id="add-brand">
+          <option value="BETOU">BETOU</option>
+          <option value="BETFUSION">BETFUSION</option>
+          <option value="SORTENABET">SORTENABET</option>
+        </select>
+      </div>
+      <div class="modal-field"><label>Status</label>
+        <select id="add-status">
+          <option value="ativo">Ativo</option>
+          <option value="encerrado">Encerrado</option>
+        </select>
+      </div>
+      <div class="modal-field"><label>Início da vigência</label><input type="date" id="add-inicio" /></div>
+      <div class="modal-field"><label>Fim da vigência</label><input type="date" id="add-fim" /></div>
+      <div class="modal-field"><label>Valor mensal</label><input type="text" id="add-valor" placeholder="R$ 0,00" /></div>
+      <div class="modal-field"><label>Prazo de aviso prévio</label><input type="text" id="add-aviso" placeholder="Ex: 30 dias" /></div>
+      <div class="modal-field"><label>NDA / Confidencialidade</label>
+        <select id="add-nda"><option value="sim">Sim</option><option value="nao">Não</option></select>
+      </div>
+      <div class="modal-field full"><label>Multas e penalidades</label><input type="text" id="add-multa" placeholder="Ex: 50% rescisão imotivada" /></div>
+      <div class="modal-field full"><label>Observação</label><textarea id="add-obs" placeholder="Observações adicionais..."></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModals()">Cancelar</button>
+      <button class="btn-ok-add" onclick="confirmarAdd()"><i class="ti ti-check" style="font-size:13px;margin-right:4px"></i>Adicionar</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -393,8 +444,50 @@ function openRenov(id){pendId=id;const c=dados.find(x=>x.id===id);document.getEl
 function confirmarRenov(){const c=dados.find(x=>x.id===pendId);const raw=document.getElementById('mrenov-data').value;if(raw){const[y,m,d]=raw.split('-');c.vige=`${d}/${m}/${y}`;c.renovadoEm=new Date().toLocaleDateString('pt-BR');}const v=document.getElementById('mrenov-valor').value.trim();if(v)c.valor=v;closeModals();renderAll();toast(`✓ ${c.nome} renovado com sucesso`);}
 function openReat(id){pendId=id;document.getElementById('mreat-nome').textContent=dados.find(x=>x.id===id).nome;document.getElementById('modalReat').classList.add('open');}
 function confirmarReat(){const c=dados.find(x=>x.id===pendId);c.status='ativo';c.dataEnc='';c.obsEnc='';closeModals();renderAll();toast(`✓ ${c.nome} reativado`);showPage(c.tipo==='emb'?'embaixadores':'influenciadores');}
-function closeModals(){['modalEnc','modalRenov','modalReat'].forEach(id=>document.getElementById(id).classList.remove('open'));pendId=null;}
-['modalEnc','modalRenov','modalReat'].forEach(id=>{document.getElementById(id).addEventListener('click',e=>{if(e.target===e.currentTarget)closeModals();});});
+let addTipo='emb';
+function openAdd(tipo){
+  addTipo=tipo||'emb';
+  document.getElementById('add-modal-title').textContent=tipo==='inf'?'Adicionar novo influenciador':'Adicionar novo embaixador';
+  ['add-nome','add-cpfcnpj','add-pj','add-cnpj','add-valor','add-aviso','add-multa','add-obs'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('add-inicio').value='';
+  document.getElementById('add-fim').value='';
+  document.getElementById('add-status').value='ativo';
+  document.getElementById('add-nda').value='sim';
+  document.getElementById('add-brand').value='BETOU';
+  document.getElementById('modalAdd').classList.add('open');
+}
+function confirmarAdd(){
+  const nome=document.getElementById('add-nome').value.trim();
+  if(!nome){alert('Preencha o nome.');return;}
+  const rawInicio=document.getElementById('add-inicio').value;
+  const rawFim=document.getElementById('add-fim').value;
+  let vigsText='-',vigeText='-';
+  if(rawInicio){const[y,m,d]=rawInicio.split('-');vigsText=`${d}/${m}/${y}`;}
+  if(rawFim){const[y,m,d]=rawFim.split('-');vigeText=`${d}/${m}/${y}`;}
+  const novoId=Math.max(...dados.map(c=>c.id))+1;
+  dados.push({
+    id:novoId,
+    tipo:addTipo,
+    nome,
+    cpfcnpj:document.getElementById('add-cpfcnpj').value.trim()||'-',
+    pj:document.getElementById('add-pj').value.trim()||'-',
+    cnpj:document.getElementById('add-cnpj').value.trim()||'-',
+    brand:document.getElementById('add-brand').value,
+    vigs:vigsText,
+    vige:vigeText,
+    valor:document.getElementById('add-valor').value.trim()||'-',
+    aviso:document.getElementById('add-aviso').value.trim()||'-',
+    nda:document.getElementById('add-nda').value==='sim',
+    obs:document.getElementById('add-multa').value.trim()||'-',
+    status:document.getElementById('add-status').value,
+    renovadoEm:'',dataEnc:'',obsEnc:''
+  });
+  closeModals();renderAll();
+  toast(`✓ ${nome} adicionado com sucesso!`);
+  showPage(addTipo==='inf'?'influenciadores':'embaixadores');
+}
+function closeModals(){['modalEnc','modalRenov','modalReat','modalAdd'].forEach(id=>document.getElementById(id).classList.remove('open'));pendId=null;}
+['modalEnc','modalRenov','modalReat','modalAdd'].forEach(id=>{document.getElementById(id).addEventListener('click',e=>{if(e.target===e.currentTarget)closeModals();});});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModals();});
 function renderAll(){renderKPIs();renderEmb();renderInf();renderEnc();renderNloc();}
 renderAll();
