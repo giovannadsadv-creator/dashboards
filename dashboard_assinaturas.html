@@ -466,8 +466,10 @@ function deleteDoc(i){
 function closeConfirm(){
   document.getElementById('confirmOverlay').classList.remove('open');
 }
-document.getElementById('confirmOverlay').addEventListener('click', function(e){
-  if(e.target === e.currentTarget) closeConfirm();
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('confirmOverlay').addEventListener('click', function(e){
+    if(e.target === e.currentTarget) closeConfirm();
+  });
 });
 
 function toggleSigned(){
