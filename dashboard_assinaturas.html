@@ -36,6 +36,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .header-date{font-size:12px;color:var(--muted)}
 .btn-zapsign{background:var(--accent);color:#fff;font-size:12px;font-weight:600;padding:7px 14px;border-radius:7px;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;text-decoration:none;transition:background .15s}
 .btn-zapsign:hover{background:#2249C0}
+.btn-doc{background:#6b21a8;color:#fff;font-size:11px;font-weight:600;padding:6px 12px;border-radius:7px;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:background .15s}
+.btn-doc:hover{background:#581c87}
 .btn-zapsign svg{width:13px;height:13px;fill:#fff}
 
 /* ── Main ── */
@@ -200,6 +202,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         </div>
       </div>
       <div class="form-row">
+        <div class="form-group full">
+          <label class="form-label">Link do documento (Drive, Zapsign etc.)</label>
+          <input type="text" class="form-input" id="docLink" placeholder="https://drive.google.com/... ou https://app.zapsign.com.br/...">
+        </div>
+      </div>
+      <div class="form-row">
         <div class="form-group">
           <label class="form-label">Tipo</label>
           <select class="form-select" id="docType">
@@ -324,9 +332,14 @@ function render(){
         <div class="card-meta">
           <span class="card-type ${typeCls(p.type)}">${p.type}</span>
           ${waitingLabel(p.addedAt)}
+          ${p.link ? `<a href="${p.link}" target="_blank" style="font-size:10px;color:#6b21a8;text-decoration:none;display:inline-flex;align-items:center;gap:3px"><svg width="10" height="10" viewBox="0 0 20 20" fill="none"><path d="M10 3H5a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-5M13 3h4v4M10 10l7-7" stroke="#6b21a8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>abrir documento</a>` : ''}
         </div>
       </div>
       <div class="card-actions">
+        ${p.link ? `<a href="${p.link}" target="_blank" class="btn-sign" style="background:#6b21a8">
+          <svg viewBox="0 0 20 20"><path d="M4 2h8l4 4v12H4V2z" stroke="#fff" stroke-width="1.6" fill="none"/><path d="M7 9h6M7 12h5" stroke="#fff" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>
+          Ver doc
+        </a>` : ''}
         <a href="https://zapsign.com.br" target="_blank" class="btn-sign">
           <svg viewBox="0 0 20 20"><path d="M11 3l6 6-6 6M5 9h12" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Assinar
@@ -379,7 +392,8 @@ function addDoc(){
   if(!name){document.getElementById('docName').focus();document.getElementById('docName').style.borderColor='var(--danger)';return;}
   document.getElementById('docName').style.borderColor='';
   const d=load();
-  const newDoc={name,type,date,addedAt:today()};
+  const link=document.getElementById('docLink').value.trim();
+  const newDoc={name,type,date,addedAt:today(),link};
   d.pending.push(newDoc);
   // accumulate all docs added today for expandable alert
   if(!d.addedToday||d.addedToday.length===0||d.addedToday[0].addedAt!==today()) d.addedToday=[];
@@ -387,6 +401,7 @@ function addDoc(){
   save(d);
   document.getElementById('docName').value='';
   document.getElementById('docDate').value=today();
+  document.getElementById('docLink').value='';
   toggleForm();
   showNewDocAlert(newDoc);
   render();
