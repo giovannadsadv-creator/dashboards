@@ -354,8 +354,8 @@ function render(){
           <svg viewBox="0 0 20 20"><path d="M11 3l6 6-6 6M5 9h12" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Assinar
         </a>
-        <button class="btn-done" onclick="markDone(${i})">✓ Feito</button>
-        <button class="btn-del" onclick="deleteDoc(${i})" title="Remover">
+        <button class="btn-done" onclick="markDone(${p.id !== undefined ? p.id : i})">✓ Feito</button>
+        <button class="btn-del" onclick="deleteDoc(${p.id !== undefined ? p.id : i})" title="Remover">
           <svg viewBox="0 0 20 20"><path d="M6 6l8 8M14 6l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
         </button>
       </div>
@@ -403,7 +403,7 @@ function addDoc(){
   document.getElementById('docName').style.borderColor='';
   const d=load();
   const link=document.getElementById('docLink').value.trim();
-  const newDoc={name,type,date,addedAt:today(),link};
+  const newDoc={id:Date.now(),name,type,date,addedAt:today(),link};
   d.pending.push(newDoc);
   // accumulate all docs added today for expandable alert
   if(!d.addedToday||d.addedToday.length===0||d.addedToday[0].addedAt!==today()) d.addedToday=[];
@@ -442,22 +442,25 @@ function showNewDocAlert(doc){
 }
 
 
-function markDone(i){
+function markDone(id){
   const d=load();
-  const doc=d.pending.splice(i,1)[0];
+  const idx = d.pending.findIndex(p => String(p.id) === String(id) || String(d.pending.indexOf(p)) === String(id));
+  if(idx === -1) return;
+  const doc=d.pending.splice(idx,1)[0];
   doc.signedAt=fmtDate(today());
   d.signed.push(doc);
   save(d);
   render();
 }
 
-function deleteDoc(i){
+function deleteDoc(id){
   const overlay = document.getElementById('confirmOverlay');
   const okBtn = document.getElementById('confirmOkBtn');
   overlay.classList.add('open');
   okBtn.onclick = function(){
     const d=load();
-    d.pending.splice(i,1);
+    const idx = d.pending.findIndex(p => String(p.id) === String(id) || String(d.pending.indexOf(p)) === String(id));
+    if(idx !== -1) d.pending.splice(idx,1);
     save(d);
     closeConfirm();
     render();
@@ -499,7 +502,7 @@ document.addEventListener('keydown',e=>{
   if(existing.pending.length > 0 || existing.signed.length > 0) return; // already has data
   const initial = {
     pending:[
-      {name:"NDA - Sortenabet x DR NOTEBOOK - 16.06.2026.docx.pdf", type:"NDA", date:"", addedAt:"2026-06-16"},
+      {id:1,name:"NDA - Sortenabet x DR NOTEBOOK - 16.06.2026.docx.pdf", type:"NDA", date:"", addedAt:"2026-06-16",link:""},
       {name:"NDA - Sortenabet x Clara.pdf", type:"NDA", date:"", addedAt:"2026-06-12"},
       {name:"Termo de Adesão - Sub Guilherme de Oliveira Fernandes (Lvimidia).docx.pdf", type:"Contrato", date:"", addedAt:"2026-06-09"},
       {name:"TERMO DE DISTRATO - Sortenabet x Gilberto Bezerra Machado Júnior.docx.pdf", type:"Distrato", date:"", addedAt:"2026-06-02"},
