@@ -242,9 +242,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   </div>
 
   <!-- Pending list -->
-  <div class="section-title">
-    <svg width="13" height="13" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#888580" stroke-width="1.8"/><path d="M10 6v4l3 2" stroke="#888580" stroke-width="1.8" stroke-linecap="round"/></svg>
-    Documentos pendentes
+  <div class="section-title" style="display:flex;justify-content:space-between;align-items:center;">
+    <span style="display:flex;align-items:center;gap:6px">
+      <svg width="13" height="13" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#888580" stroke-width="1.8"/><path d="M10 6v4l3 2" stroke="#888580" stroke-width="1.8" stroke-linecap="round"/></svg>
+      Documentos pendentes
+    </span>
+    <button onclick="limparTudo()" style="padding:5px 12px;border-radius:7px;border:0.5px solid #fca5a5;background:#fff;color:#b91c1c;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px">🗑 Limpar tudo</button>
   </div>
   <div class="pending-list" id="pendingList"></div>
 
