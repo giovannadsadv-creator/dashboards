@@ -517,43 +517,9 @@ document.addEventListener('keydown',e=>{
 });
 
 // ── Pre-load documents if store is empty ──
-(function preload(){
-  const existing = load();
-  if(existing.pending.length > 0 || existing.signed.length > 0) return; // already has data
-  const initial = {
-    pending:[
-      {id:1,name:"NDA - Sortenabet x DR NOTEBOOK - 16.06.2026.docx.pdf", type:"NDA", date:"", addedAt:"2026-06-16",link:""},
-      {name:"NDA - Sortenabet x Clara.pdf", type:"NDA", date:"", addedAt:"2026-06-12"},
-      {name:"Termo de Adesão - Sub Guilherme de Oliveira Fernandes (Lvimidia).docx.pdf", type:"Contrato", date:"", addedAt:"2026-06-09"},
-      {name:"TERMO DE DISTRATO - Sortenabet x Gilberto Bezerra Machado Júnior.docx.pdf", type:"Distrato", date:"", addedAt:"2026-06-02"},
-      {name:"MINUTA CONTRATUAL WHATSAPP MARKETING - JP COMUNICA.pdf", type:"Contrato", date:"", addedAt:"2026-06-02"},
-      {name:"Termo de Adesão - Sub Joice (Lvimidia).docx", type:"Contrato", date:"", addedAt:"2026-05-29"},
-      {name:"Contrato de Prestação de Serviços - AD MASTERS", type:"Contrato", date:"", addedAt:"2026-05-26"},
-      {name:"Primeiro Termo Aditivo - Experto Pedro Abreu (FCS).pdf", type:"Aditivo", date:"", addedAt:"2026-05-25"},
-      {name:"1° Aditivo Sortenabet & Nimble.docx", type:"Aditivo", date:"", addedAt:"2026-05-18"},
-      {name:"Contrato de Prestação de Serviços - Afiliado Fusion - Josevan", type:"Contrato", date:"", addedAt:"2026-05-13"},
-      {name:"Contrato de Prestação de Serviços - Expert Inaldo (Betfusion).docx", type:"Contrato", date:"", addedAt:"2026-04-28"},
-      {name:"Contrato - Betfusion x Letícia Beppler.docx", type:"Contrato", date:"", addedAt:"2026-04-27"},
-      {name:"Contrato de Prestação de Serviços - Betfusion x Davi.docx", type:"Contrato", date:"", addedAt:"2026-04-24"},
-      {name:"Contrato de Prestação de Serviços - Expert JR.docx", type:"Contrato", date:"", addedAt:"2026-04-24"},
-      {name:"TERMO DE DISTRATO - Sortenabet x Diogo Freire.pdf", type:"Distrato", date:"", addedAt:"2026-04-24"},
-      {name:"Contrato de Prestação de Serviços - Tipminer x Patrick.docx", type:"Contrato", date:"", addedAt:"2026-04-13"},
-      {name:"Termo de Adesão - Sub Yasmin (FCS)", type:"Contrato", date:"", addedAt:"2026-04-08"},
-      {name:"Contrato de Prestação de Serviços - Fusion x Letícia", type:"Contrato", date:"", addedAt:"2026-03-12"},
-      {name:"TERMO DE DISTRATO - Sortenabet x Afiliaboss.pdf", type:"Distrato", date:"", addedAt:"2026-02-18"},
-      {name:"CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Gustavo).docx.pdf", type:"Contrato", date:"", addedAt:"2026-02-09"},
-      {name:"CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Juliano).docx.pdf", type:"Contrato", date:"", addedAt:"2026-02-09"},
-      {name:"CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Matheus).docx", type:"Contrato", date:"", addedAt:"2026-02-09"},
-      {name:"CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Bruno).docx", type:"Contrato", date:"", addedAt:"2026-02-09"},
-      {name:"Termo de Rescisão - SorteNaBet x Black Track.pdf", type:"Distrato", date:"", addedAt:"2026-01-29"},
-      {name:"AWS Cloud - Contrato de Faturamento para Usuário Final 11.25.docx", type:"Contrato", date:"", addedAt:"2026-01-28"},
-      {name:"CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE CONSULTORIA EM CRM - Betfusion.pdf", type:"Contrato", date:"", addedAt:"2025-11-28"},
-      {name:"Contrato de Prestação de Serviços - Vendedora Monique.docx", type:"Contrato", date:"", addedAt:"2025-11-21"},
-    ],
-    signed:[]
-  };
-  save(initial);
-})();
+// Lista limpa — recadastrar via formulário
+localStorage.removeItem('assinaturas_v1');
+save({pending:[], signed:[]});
 
 setDate();
 render();
