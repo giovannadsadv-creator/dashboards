@@ -159,7 +159,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   </div>
   <div style="display:flex;align-items:center;gap:12px">
     <span class="header-date" id="headerDate"></span>
-    <a href="https://zapsign.com.br" target="_blank" class="btn-zapsign">
+    <button onclick="limparTudo()" style="padding:8px 14px;border-radius:8px;border:0.5px solid #fca5a5;background:#fff;color:#b91c1c;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;margin-right:8px">🗑 Limpar lista</button>
+<a href="https://zapsign.com.br" target="_blank" class="btn-zapsign">
       <svg viewBox="0 0 20 20"><path d="M11 3l6 6-6 6M5 9h12" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Abrir Zapsign
     </a>
@@ -463,6 +464,22 @@ function deleteDoc(id){
     if(idx !== -1) d.pending.splice(idx,1);
     save(d);
     closeConfirm();
+    render();
+  };
+}
+function limparTudo(){
+  const overlay = document.getElementById('confirmOverlay');
+  const okBtn = document.getElementById('confirmOkBtn');
+  document.querySelector('.confirm-box h3').textContent = 'Limpar toda a lista?';
+  document.querySelector('.confirm-box p').textContent = 'Todos os documentos pendentes serão removidos. Esta ação não pode ser desfeita.';
+  overlay.classList.add('open');
+  okBtn.onclick = function(){
+    const d = load();
+    d.pending = [];
+    save(d);
+    closeConfirm();
+    document.querySelector('.confirm-box h3').textContent = 'Remover documento?';
+    document.querySelector('.confirm-box p').textContent = 'Esta ação não pode ser desfeita.';
     render();
   };
 }
