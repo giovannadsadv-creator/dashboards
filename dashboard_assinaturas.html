@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Assinaturas Pendentes — Zapsign</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
@@ -264,7 +267,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 // ── Data store (localStorage) ──
 const STORE = 'assinaturas_v1';
 function load(){try{return JSON.parse(localStorage.getItem(STORE))||{pending:[],signed:[]};}catch{return{pending:[],signed:[]};}}
-function save(d){localStorage.setItem(STORE,JSON.stringify(d));}
+function save(d){
+  try {
+    localStorage.setItem(STORE, JSON.stringify(d));
+  } catch(e) {
+    console.error('Erro ao salvar:', e);
+  }
+}
 
 // ── Helpers ──
 function today(){return new Date().toISOString().split('T')[0];}
@@ -517,9 +526,10 @@ document.addEventListener('keydown',e=>{
 });
 
 // ── Pre-load documents if store is empty ──
-// Lista limpa — recadastrar via formulário
-localStorage.removeItem('assinaturas_v1');
-save({pending:[], signed:[]});
+// Inicializa lista vazia se não existir ainda
+if(!localStorage.getItem('assinaturas_v1')){
+  save({pending:[], signed:[]});
+}
 
 setDate();
 render();
