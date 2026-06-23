@@ -116,7 +116,7 @@ tr:hover td { background: #fafaf8; }
 .modal input[type=text]:focus, .modal input[type=email]:focus, .modal select:focus { border-color: #aac4f0; }
 .btn-ok-add { padding: 7px 18px; border-radius: 8px; border: none; background: #15803d; color: #fff; font-size: 13px; cursor: pointer; font-family: inherit; font-weight: 500; }
 .btn-ok-add:hover { background: #166534; }
-.modal-lg { width: 640px; }
+.modal-lg { width: 640px; max-height: 90vh; overflow-y: auto; }
 
 /* drive link in cell */
 .drive-link { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 6px; border: 0.5px solid #e0e0d8; background: #fff; text-decoration: none; transition: background .12s; }
@@ -136,7 +136,7 @@ tr:hover td { background: #fafaf8; }
 /* modal */
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 1000; align-items: center; justify-content: center; }
 .modal-overlay.open { display: flex; }
-.modal { background: #fff; border-radius: 14px; padding: 28px 28px 24px; width: 440px; max-width: 94vw; box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
+.modal { background: #fff; border-radius: 14px; padding: 28px 28px 24px; width: 440px; max-width: 94vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
 .modal h2 { font-size: 16px; font-weight: 500; margin-bottom: 6px; }
 .modal-sub { font-size: 13px; color: #666; margin-bottom: 20px; line-height: 1.5; }
 .modal-sub strong { color: #1a1a18; }
