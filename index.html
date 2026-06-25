@@ -180,41 +180,73 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 const hoje = new Date().toLocaleDateString('pt-BR', {weekday:'long',day:'2-digit',month:'long',year:'numeric'});
 document.getElementById('dataAtual').textContent = hoje.charAt(0).toUpperCase() + hoje.slice(1);
 
-// Lê os números diretamente do localStorage do dashboard de assinaturas
-// (mesma chave usada pelo dashboard_assinaturas.html)
-(function(){
-  const FIXED_TOTAL = 54; // fallback caso o localStorage ainda não exista
-  let pending = [];
-  try {
-    const stored = localStorage.getItem('assinaturas_v1');
-    if(stored){
-      const data = JSON.parse(stored);
-      pending = data.pending || [];
-    }
-  } catch(e){}
+// ── FONTE DE VERDADE: mesma lista e mesma versão do dashboard_assinaturas.html ──
+// Ao atualizar a lista, incremente FIXED_VERSION nos DOIS arquivos.
+const FIXED_VERSION = '2026-06-25';
+const FIXED_PENDING = [
+  {id:1,  addedAt:'2026-01-29', type:'contrato', name:'29.01.2026 | CONTRATO DE SEO - Sortenabet X LUIZ FERNANDO'},
+  {id:2,  addedAt:'2026-01-28', type:'contrato', name:'28.01.2026 | AWS Cloud - Contrato de faturamento para Usuário Final 11.25'},
+  {id:3,  addedAt:'2026-01-29', type:'contrato', name:'29.01.2026 | Termo de Rescisão - SorteNaBet x Black Track.pdf'},
+  {id:4,  addedAt:'2026-02-09', type:'contrato', name:'09.02.2026 | CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Bruno)'},
+  {id:5,  addedAt:'2026-02-09', type:'contrato', name:'09.02.2026 | CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Matheus)'},
+  {id:6,  addedAt:'2026-02-09', type:'contrato', name:'09.02.2026 | CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Juliano)'},
+  {id:7,  addedAt:'2026-02-09', type:'contrato', name:'09.02.2026 | CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Gustavo)'},
+  {id:8,  addedAt:'2026-02-18', type:'distrato', name:'18.02.2026 | TERMO DE DISTRATO - Sortenabet x Afiliados - João Victor Gonçalves'},
+  {id:9,  addedAt:'2026-03-23', type:'distrato', name:'23.03.2026 - TERMO DE DISTRATO - Sortenabet x Fllipe e Maria (FCS).pdf'},
+  {id:10, addedAt:'2026-04-08', type:'contrato', name:'08.04.2026 - Termo de Adesão ao Contrato de Prestação de Serviços - Sub Yasmin (FCS)'},
+  {id:11, addedAt:'2026-04-13', type:'contrato', name:'13.04.2026 - Contrato de Prestação de Serviços - Tipminer x Patrick'},
+  {id:12, addedAt:'2026-04-24', type:'distrato', name:'24.04.2026 - Lembrete - TERMO DE DISTRATO - Sortenabet x Torres'},
+  {id:13, addedAt:'2026-04-24', type:'distrato', name:'24.04.2026 - TERMO DE DISTRATO - Sortenabet x Diogo Freire.pdf'},
+  {id:14, addedAt:'2026-04-24', type:'contrato', name:'24.04.2026 - Contrato de Prestação de Serviços - Betfusion x Davi.docx'},
+  {id:15, addedAt:'2026-04-27', type:'contrato', name:'27.04.2026 - Contrato - Betfusion x Letícia Beppler.docx'},
+  {id:16, addedAt:'2026-04-28', type:'contrato', name:'28.04.2026 - Contrato de Prestação de Serviços - Expert Inaldo (Betfusion)'},
+  {id:17, addedAt:'2026-04-24', type:'contrato', name:'24.04.2026 - Contrato de Prestação de Serviços - Expert JR.docx'},
+  {id:18, addedAt:'2026-05-13', type:'contrato', name:'13.05.2026 - Contrato de Prestação de Serviços - Afiliado Fusion - Josevan'},
+  {id:19, addedAt:'2026-05-18', type:'aditivo',  name:'18.05.2026 - 1º Aditivo Sortenabet & Nimble.docx'},
+  {id:20, addedAt:'2026-05-25', type:'aditivo',  name:'25.05.2026 - Primeiro Termo Aditivo - Experto Pedro Abreu (FCS).pdf'},
+  {id:21, addedAt:'2026-05-26', type:'contrato', name:'26.05.2026 - Contrato de Prestação de Serviços - AD MASTERS'},
+  {id:22, addedAt:'2026-05-29', type:'contrato', name:'29.05.2026 - Termo de Adesão ao Contrato de Prestação de Serviços - Sub Joice (LVMidia)'},
+  {id:23, addedAt:'2026-06-02', type:'distrato', name:'02.06.2026 - TERMO DE DISTRATO - Sortenabet x Gilberto Bezerra Machado Júnior'},
+  {id:24, addedAt:'2026-06-09', type:'contrato', name:'09.06.2026 - Termo de Adesão ao Contrato de Prestação de Serviços - Sub Guilherme de Oliveira Fernandes (LVMidia)'},
+  {id:25, addedAt:'2026-06-12', type:'nda',      name:'12.06.2026 - NDA - Sortenabet x Clara.pdf'},
+  {id:26, addedAt:'2026-06-17', type:'aditivo',  name:'17.06.2026 - TERMO ADITIVO AO CONTRATO DE LOCAÇÃO - Maceió.pdf'},
+  {id:27, addedAt:'2026-06-23', type:'contrato', name:'23.06.2026 - Documentos Smartico'},
+];
 
-  // Se o storage está vazio ou desatualizado (total menor que o fixo),
-  // usa o total fixo para pendentes mas calcula os demais pelo prazo
-  const today = new Date().toISOString().split('T')[0];
-  function daysSince(addedAt){
-    if(!addedAt) return 0;
-    return Math.max(0, Math.round((new Date(today) - new Date(addedAt)) / 86400000));
+(function syncAndRender(){
+  const STORE = 'assinaturas_v1';
+  function load(){ try{ return JSON.parse(localStorage.getItem(STORE))||{pending:[],signed:[]}; }catch{ return{pending:[],signed:[]}; } }
+  function save(d){ try{ localStorage.setItem(STORE, JSON.stringify(d)); }catch(e){} }
+
+  // Se a versão for diferente, reseta os fixos (preserva manuais e assinados)
+  if(localStorage.getItem('assinaturas_version') !== FIXED_VERSION){
+    const cur = load();
+    const manual = (cur.pending||[]).filter(p => p.id > 9999);
+    save({ pending: [...FIXED_PENDING, ...manual], signed: cur.signed||[] });
+    localStorage.setItem('assinaturas_version', FIXED_VERSION);
+  } else {
+    // Mesma versão: só adiciona fixos que porventura faltem
+    const cur = load();
+    const ids  = new Set(cur.pending.map(p => p.id));
+    const miss = FIXED_PENDING.filter(f => !ids.has(f.id));
+    if(miss.length){ cur.pending = [...miss, ...cur.pending]; save(cur); }
   }
 
-  const total  = pending.length >= FIXED_TOTAL ? pending.length : FIXED_TOTAL;
-  const nLong  = pending.filter(p => daysSince(p.addedAt) >= 30).length;
-  const nMed   = pending.filter(p => { const d = daysSince(p.addedAt); return d >= 7 && d < 30; }).length;
+  // Calcula e exibe os números
+  const today = new Date().toISOString().split('T')[0];
+  const days  = at => !at ? 0 : Math.max(0, Math.round((new Date(today)-new Date(at))/86400000));
+  const data  = load();
+  const nLong = data.pending.filter(p => days(p.addedAt) >= 30).length;
+  const nMed  = data.pending.filter(p => { const d=days(p.addedAt); return d>=7&&d<30; }).length;
 
-  document.getElementById('statPendentes').textContent = total;
+  document.getElementById('statPendentes').textContent = data.pending.length;
   document.getElementById('statLong').textContent      = nLong;
   document.getElementById('statMed').textContent       = nMed;
 
-  // Alerta dinâmico
-  const strip = document.getElementById('alertStrip');
-  const msg   = document.getElementById('alertMsg');
   if(nLong > 0){
-    strip.classList.remove('alert-strip-hidden');
-    msg.innerHTML = `${nLong} documento${nLong > 1 ? 's estão' : ' está'} aguardando assinatura há mais de 30 dias. <a href="dashboard_assinaturas.html">Ver assinaturas →</a>`;
+    document.getElementById('alertStrip').classList.remove('alert-strip-hidden');
+    document.getElementById('alertMsg').innerHTML =
+      `${nLong} documento${nLong>1?'s estão':' está'} aguardando assinatura há mais de 30 dias. <a href="dashboard_assinaturas.html">Ver assinaturas →</a>`;
   }
 })();
 </script>
