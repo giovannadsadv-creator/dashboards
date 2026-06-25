@@ -556,34 +556,31 @@ const FIXED_PENDING = [
   {id:27, name:'23.06.2026 - Documentos Smartico', url:'https://app.zapsign.com.br/verificar/596c3814-7032-4e93-9595-fd1f818275b7', type:'contrato', addedAt:'2026-06-23'},
 ];
 
-// Sincroniza localStorage com FIXED_PENDING como fonte de verdade.
-// Regras:
-//   1. Documentos do FIXED_PENDING que não existem no storage → adiciona
-//   2. Documentos do storage que NÃO estão no FIXED_PENDING e não foram
-//      adicionados manualmente (id numérico simples 1-999) → remove
-//      (isso limpa entradas antigas que saíram da lista fixa)
-//   3. Documentos adicionados manualmente pelo usuário (id = timestamp > 9999)
-//      ou que estão no signed → preserva
+// ── Versão da lista fixa — incrementar sempre que FIXED_PENDING mudar ──
+const FIXED_VERSION = '2026-06-25';
+
 (function syncStorage(){
+  const savedVersion = localStorage.getItem('assinaturas_version');
+
+  // Se a versão mudou, descarta os pendentes fixos antigos e recarrega
+  if(savedVersion !== FIXED_VERSION){
+    const current = load();
+    // Preserva apenas docs adicionados manualmente (id = timestamp > 9999)
+    // e docs já assinados
+    const manualDocs = (current.pending || []).filter(p => p.id > 9999);
+    save({ pending: [...FIXED_PENDING, ...manualDocs], signed: current.signed || [] });
+    localStorage.setItem('assinaturas_version', FIXED_VERSION);
+    return;
+  }
+
+  // Mesma versão: só adiciona fixos que porventura faltem
   const current = load();
-  const fixedIds = new Set(FIXED_PENDING.map(f => f.id));
-
-  // Remove do pending qualquer item que era "fixo antigo" (id <= 999)
-  // mas que não está mais na FIXED_PENDING atual
-  current.pending = current.pending.filter(p => {
-    const isFixedSlot = typeof p.id === 'number' && p.id <= 999;
-    if(isFixedSlot) return fixedIds.has(p.id); // mantém só se ainda está na lista
-    return true; // preserva docs adicionados manualmente (id = timestamp)
-  });
-
-  // Adiciona fixos que ainda não estão no pending
   const existingIds = new Set(current.pending.map(p => p.id));
   const missing = FIXED_PENDING.filter(f => !existingIds.has(f.id));
   if(missing.length > 0){
     current.pending = [...missing, ...current.pending];
+    save(current);
   }
-
-  save(current);
 })();
 
 setDate();
