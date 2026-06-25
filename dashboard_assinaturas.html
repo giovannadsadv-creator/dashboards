@@ -525,17 +525,17 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'&&document.getElementById('addForm').classList.contains('show'))toggleForm();
 });
 
-// ── Dados fixos — não dependem de localStorage ──
+// ── Dados fixos — fonte de verdade para todos os usuários ──
 const FIXED_PENDING = [
-  {id:1, name:'29.01.2026 | CONTRATO DE SEO - Sortenabet X LUIZ FERNANDO', url:'https://app.zapsign.com.br/verificar/3732c8cd-45de-47eb-b188-bb267e9da094', type:'contrato', addedAt:'2026-01-29'},
-  {id:2, name:'28.01.2026 | AWS Cloud - Contrato de faturamento para Usuário Final 11.25', url:'https://app.zapsign.com.br/verificar/faf62db9-cebf-45a6-991d-d06c5f2bd19c', type:'contrato', addedAt:'2026-01-28'},
-  {id:3, name:'29.01.2026 | Termo de Rescisão - SorteNaBet x Black Track.pdf', url:'https://app.zapsign.com.br/verificar/e3fd5cdc-780b-4581-9796-31419cfa2029', type:'contrato', addedAt:'2026-01-29'},
-  {id:4, name:'09.02.2026 | CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Bruno)', url:'https://app.zapsign.com.br/verificar/7037802f-3f0d-4366-8917-ebf8b6a40110', type:'contrato', addedAt:'2026-02-09'},
-  {id:5, name:'09.02.2026 | CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Matheus)', url:'https://app.zapsign.com.br/verificar/c291f302-eb79-4749-9ff8-4b9c5ecc326b', type:'contrato', addedAt:'2026-02-09'},
-  {id:6, name:'09.02.2026 | CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Juliano)', url:'https://app.zapsign.com.br/verificar/5029c7af-9765-458a-9ba4-ffc0d7ae49a8', type:'contrato', addedAt:'2026-02-09'},
-  {id:7, name:'09.02.2026 | CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Gustavo)', url:'https://app.zapsign.com.br/verificar/bd597784-135d-48be-97d7-974b23ff08ce', type:'contrato', addedAt:'2026-02-09'},
-  {id:8, name:'18.02.2026 | TERMO DE DISTRATO - Sortenabet x Afiliados - João Victor Gonçalves', url:'https://app.zapsign.com.br/verificar/ce63cb1e-5c94-459d-9459-88a17ce40b2b', type:'distrato', addedAt:'2026-02-18'},
-  {id:9, name:'23.03.2026 - TERMO DE DISTRATO - Sortenabet x Fllipe e Maria (FCS).pdf', url:'https://app.zapsign.com.br/verificar/b022b5db-c772-440d-8f04-36a0577d61d0', type:'distrato', addedAt:'2026-03-23'},
+  {id:1,  name:'29.01.2026 | CONTRATO DE SEO - Sortenabet X LUIZ FERNANDO', url:'https://app.zapsign.com.br/verificar/3732c8cd-45de-47eb-b188-bb267e9da094', type:'contrato', addedAt:'2026-01-29'},
+  {id:2,  name:'28.01.2026 | AWS Cloud - Contrato de faturamento para Usuário Final 11.25', url:'https://app.zapsign.com.br/verificar/faf62db9-cebf-45a6-991d-d06c5f2bd19c', type:'contrato', addedAt:'2026-01-28'},
+  {id:3,  name:'29.01.2026 | Termo de Rescisão - SorteNaBet x Black Track.pdf', url:'https://app.zapsign.com.br/verificar/e3fd5cdc-780b-4581-9796-31419cfa2029', type:'contrato', addedAt:'2026-01-29'},
+  {id:4,  name:'09.02.2026 | CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Bruno)', url:'https://app.zapsign.com.br/verificar/7037802f-3f0d-4366-8917-ebf8b6a40110', type:'contrato', addedAt:'2026-02-09'},
+  {id:5,  name:'09.02.2026 | CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Matheus)', url:'https://app.zapsign.com.br/verificar/c291f302-eb79-4749-9ff8-4b9c5ecc326b', type:'contrato', addedAt:'2026-02-09'},
+  {id:6,  name:'09.02.2026 | CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Juliano)', url:'https://app.zapsign.com.br/verificar/5029c7af-9765-458a-9ba4-ffc0d7ae49a8', type:'contrato', addedAt:'2026-02-09'},
+  {id:7,  name:'09.02.2026 | CONTRATO DE PRESTAÇÃO DE SERVIÇOS DEV - EXTERIOR (Gustavo)', url:'https://app.zapsign.com.br/verificar/bd597784-135d-48be-97d7-974b23ff08ce', type:'contrato', addedAt:'2026-02-09'},
+  {id:8,  name:'18.02.2026 | TERMO DE DISTRATO - Sortenabet x Afiliados - João Victor Gonçalves', url:'https://app.zapsign.com.br/verificar/ce63cb1e-5c94-459d-9459-88a17ce40b2b', type:'distrato', addedAt:'2026-02-18'},
+  {id:9,  name:'23.03.2026 - TERMO DE DISTRATO - Sortenabet x Fllipe e Maria (FCS).pdf', url:'https://app.zapsign.com.br/verificar/b022b5db-c772-440d-8f04-36a0577d61d0', type:'distrato', addedAt:'2026-03-23'},
   {id:10, name:'08.04.2026 - Termo de Adesão ao Contrato de Prestação de Serviços - Sub Yasmin (FCS)', url:'https://app.zapsign.com.br/verificar/8cc0a735-c7b6-4f67-9d30-0580c79ad071', type:'contrato', addedAt:'2026-04-08'},
   {id:11, name:'13.04.2026 - Contrato de Prestação de Serviços - Tipminer x Patrick', url:'https://app.zapsign.com.br/verificar/e56d88ab-75e5-4a4d-a523-55df68adcd6d', type:'contrato', addedAt:'2026-04-13'},
   {id:12, name:'24.04.2026 - Lembrete - TERMO DE DISTRATO - Sortenabet x Torres', url:'https://app.zapsign.com.br/verificar/b925456a-5ba0-4bfc-8132-e9870e3619c3', type:'distrato', addedAt:'2026-04-24'},
@@ -554,33 +554,49 @@ const FIXED_PENDING = [
   {id:25, name:'12.06.2026 - NDA - Sortenabet x Clara.pdf', url:'https://app.zapsign.com.br/verificar/a27f2c93-2cd8-4442-b267-c0f60b140a5f', type:'nda', addedAt:'2026-06-12'},
   {id:26, name:'17.06.2026 - TERMO ADITIVO AO CONTRATO DE LOCAÇÃO - Maceió.pdf', url:'https://app.zapsign.com.br/verificar/a6ddf0a6-d834-4b3c-bc7f-ad77a0cabdc2', type:'aditivo', addedAt:'2026-06-17'},
   {id:27, name:'23.06.2026 - Documentos Smartico', url:'https://app.zapsign.com.br/verificar/596c3814-7032-4e93-9595-fd1f818275b7', type:'contrato', addedAt:'2026-06-23'},
+  {id:28, name:'TODO_28 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:29, name:'TODO_29 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:30, name:'TODO_30 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:31, name:'TODO_31 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:32, name:'TODO_32 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:33, name:'TODO_33 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:34, name:'TODO_34 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:35, name:'TODO_35 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:36, name:'TODO_36 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:37, name:'TODO_37 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:38, name:'TODO_38 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:39, name:'TODO_39 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:40, name:'TODO_40 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:41, name:'TODO_41 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:42, name:'TODO_42 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:43, name:'TODO_43 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:44, name:'TODO_44 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:45, name:'TODO_45 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:46, name:'TODO_46 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:47, name:'TODO_47 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:48, name:'TODO_48 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:49, name:'TODO_49 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:50, name:'TODO_50 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:51, name:'TODO_51 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:52, name:'TODO_52 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:53, name:'TODO_53 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
+  {id:54, name:'TODO_54 - substituir pelo documento real', url:'', type:'contrato', addedAt:'2026-06-25'},
 ];
-
-// ── Versão da lista fixa — incrementar sempre que FIXED_PENDING mudar ──
-const FIXED_VERSION = '2026-06-25';
-
-(function syncStorage(){
-  const savedVersion = localStorage.getItem('assinaturas_version');
-
-  // Se a versão mudou, descarta os pendentes fixos antigos e recarrega
-  if(savedVersion !== FIXED_VERSION){
-    const current = load();
-    // Preserva apenas docs adicionados manualmente (id = timestamp > 9999)
-    // e docs já assinados
-    const manualDocs = (current.pending || []).filter(p => p.id > 9999);
-    save({ pending: [...FIXED_PENDING, ...manualDocs], signed: current.signed || [] });
-    localStorage.setItem('assinaturas_version', FIXED_VERSION);
-    return;
-  }
-
-  // Mesma versão: só adiciona fixos que porventura faltem
-  const current = load();
-  const existingIds = new Set(current.pending.map(p => p.id));
-  const missing = FIXED_PENDING.filter(f => !existingIds.has(f.id));
-  if(missing.length > 0){
-    current.pending = [...missing, ...current.pending];
-    save(current);
-  }
+// ── Sempre usa FIXED_PENDING como fonte de verdade ──
+// O localStorage só guarda docs manuais (id>9999) e assinados.
+// Nunca mais diverge entre usuários.
+(function initStorage(){
+  const cur = load();
+  // IDs fixos que já foram marcados como assinados — não recolocar no pending
+  const signedIds = new Set((cur.signed||[]).map(s => s.id));
+  // Docs manuais adicionados pelo usuário (id = timestamp > 9999)
+  const manualDocs = (cur.pending||[]).filter(p => p.id > 9999);
+  // Pendentes = fixos (exceto os já assinados) + manuais
+  const pending = [
+    ...FIXED_PENDING.filter(f => !signedIds.has(f.id)),
+    ...manualDocs
+  ];
+  save({ pending, signed: cur.signed||[] });
 })();
 
 setDate();
