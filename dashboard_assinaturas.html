@@ -567,11 +567,19 @@ const FIXED_PENDING = [
   // Docs manuais adicionados pelo usuário (id = timestamp > 9999)
   const manualDocs = (cur.pending||[]).filter(p => p.id > 9999);
   // Pendentes = fixos (exceto os já assinados) + manuais
+  // Força limpeza: sempre reescreve com base no FIXED_PENDING atualizado
   const pending = [
     ...FIXED_PENDING.filter(f => !signedIds.has(f.id)),
     ...manualDocs
   ];
   save({ pending, signed: cur.signed||[] });
+  // Limpa versão antiga do localStorage se tiver mais itens que o esperado
+  const stored = load();
+  const fixedIds = new Set(FIXED_PENDING.map(f => f.id));
+  const cleanPending = stored.pending.filter(p => p.id > 9999 || fixedIds.has(p.id));
+  if(cleanPending.length !== stored.pending.length){
+    save({ pending: cleanPending, signed: stored.signed||[] });
+  }
 })();
 
 setDate();
