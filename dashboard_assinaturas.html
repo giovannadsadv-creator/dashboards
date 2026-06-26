@@ -319,7 +319,11 @@ function typeCls(t){return{Contrato:'type-contrato',NDA:'type-nda',Aditivo:'type
 
 // ── Render ──
 function render(){
-  const d=load();
+  // Usa FIXED_PENDING como única fonte de verdade — ignora localStorage para pendentes
+  const stored = load();
+  const signedIds = new Set((stored.signed||[]).map(s => s.id));
+  const pending = FIXED_PENDING.filter(f => !signedIds.has(f.id));
+  const d = { pending, signed: stored.signed||[] };
 
   // sort: longest waiting first
   d.pending.sort((a,b)=>waitingDays(b.addedAt)-waitingDays(a.addedAt));
