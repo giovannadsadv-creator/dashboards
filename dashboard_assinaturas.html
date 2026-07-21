@@ -367,10 +367,6 @@ function render(){
           <svg viewBox="0 0 20 20"><path d="M4 2h8l4 4v12H4V2z" stroke="#fff" stroke-width="1.6" fill="none"/><path d="M7 9h6M7 12h5" stroke="#fff" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>
           Ver doc
         </a>` : ''}
-        <a href="https://zapsign.com.br" target="_blank" class="btn-sign">
-          <svg viewBox="0 0 20 20"><path d="M11 3l6 6-6 6M5 9h12" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Assinar
-        </a>
         <button class="btn-done" onclick="markDone(${p.id !== undefined ? p.id : i})">✓ Feito</button>
         <button class="btn-del" onclick="deleteDoc(${p.id !== undefined ? p.id : i})" title="Remover">
           <svg viewBox="0 0 20 20"><path d="M6 6l8 8M14 6l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
