@@ -180,40 +180,17 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 const hoje = new Date().toLocaleDateString('pt-BR', {weekday:'long',day:'2-digit',month:'long',year:'numeric'});
 document.getElementById('dataAtual').textContent = hoje.charAt(0).toUpperCase() + hoje.slice(1);
 
-// ── Mesma lista fixa do dashboard_assinaturas.html ──
-// Atualizar nos DOIS arquivos sempre que mudar
-const FIXED_PENDING = [
-  {id:11, addedAt:'2026-04-13'},{id:12, addedAt:'2026-04-24'},{id:13, addedAt:'2026-04-24'},
-  {id:16, addedAt:'2026-04-28'},{id:17, addedAt:'2026-04-24'},{id:18, addedAt:'2026-05-13'},
-  {id:22, addedAt:'2026-05-29'},
-  {id:28, addedAt:'2025-11-28'},
-  {id:35, addedAt:'2026-07-07'},
-];
+// Números fixos de assinaturas
+document.getElementById('statPendentes').textContent = 15;
+document.getElementById('statLong').textContent = 15;
+document.getElementById('statMed').textContent = 0;
 
-(function renderStats(){
-  // Desconta os que o usuário já marcou como assinados no localStorage
-  let signedIds = new Set();
-  try {
-    const stored = JSON.parse(localStorage.getItem('assinaturas_v1') || '{}');
-    (stored.signed || []).forEach(s => signedIds.add(s.id));
-  } catch(e){}
-
-  const today = new Date().toISOString().split('T')[0];
-  const days  = at => Math.max(0, Math.round((new Date(today) - new Date(at)) / 86400000));
-
-  const pending = FIXED_PENDING.filter(p => !signedIds.has(p.id));
-  const nLong   = pending.filter(p => days(p.addedAt) >= 30).length;
-  const nMed    = pending.filter(p => { const d = days(p.addedAt); return d >= 7 && d < 30; }).length;
-
-  document.getElementById('statPendentes').textContent = pending.length; // 33
-  document.getElementById('statLong').textContent      = nLong;
-  document.getElementById('statMed').textContent       = nMed;
-
-  if(nLong > 0){
-    document.getElementById('alertStrip').classList.remove('alert-strip-hidden');
-    document.getElementById('alertMsg').innerHTML =
-      `${nLong} documento${nLong > 1 ? 's estão' : ' está'} aguardando assinatura há mais de 30 dias. <a href="dashboard_assinaturas.html">Ver assinaturas →</a>`;
-  }
+// Alerta fixo
+(function(){
+  const strip = document.getElementById('alertStrip');
+  const msg   = document.getElementById('alertMsg');
+  strip.classList.remove('alert-strip-hidden');
+  msg.innerHTML = '15 documentos estão aguardando assinatura há mais de 30 dias. <a href="dashboard_assinaturas.html">Ver assinaturas →</a>';
 })();
 </script>
 </body>
